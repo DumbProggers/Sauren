@@ -6,14 +6,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+<<<<<<< Updated upstream
 /*|     ---<Bychkovsky Vladislav>---+---<Sidorov Ilya>---+---<Rakhmanov Temur>---      |*/
+=======
+import java.util.Objects;
+
+/*      ---<Bychkovsky Vladislav>---+---<Sidorov Ilya>---+---<Rakhmanov Temur>---      */
+>>>>>>> Stashed changes
 
 public class MainServerApp extends Application // Главный класс всего сервера
 {
     @Override
     public void start(Stage stage) throws Exception
     {
-        Parent root= FXMLLoader.load(getClass().getResource("MainServerApp.fxml"));
+        Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainServerApp.fxml")));
         Scene mainSc=new Scene(root);
         stage.setScene(mainSc);
         stage.show();
