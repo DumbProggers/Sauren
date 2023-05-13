@@ -1,5 +1,6 @@
 package com.sauren.sauren;
 
+import io.netty.channel.Channel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,8 +17,6 @@ public class MainServerAppController implements Initializable
 {
     //ip:port
     public static String infoConnection;
-
-
     @FXML
     public ChoiceBox<String> choiceUserStatusCB;
 
@@ -29,12 +28,40 @@ public class MainServerAppController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         try {
+
             //проверяем, занят ли порт и устанавливаем свободный если он занят!
             checkPort(  Integer.parseInt(   serverPortTF.getText()  ) );
+
+            //устанавливаем текст
+            serverIPLbl.setText(Inet4Address.getLocalHost().getHostAddress());
+
+            //помещаем данные с формы в переменную
             infoConnection = serverIPLbl.getText()+":"+serverPortTF.getText();
 
+            //запускаем сервер с нужными нам параметрами (infoConnection)
+            new Thread(Network::Start).start();
 
-            serverIPLbl.setText(Inet4Address.getLocalHost().getHostAddress());
+            new Thread(()->{
+
+
+                while (true){
+                    try {
+                        Thread.sleep(1000);
+                        for (String user:ServerHandler.nameUsersOnlineStringList){
+                            System.out.print(user+"\n");
+                        }
+
+                        for (Channel user:ServerHandler.usersOnlineChannekList){
+                            System.out.println(user.remoteAddress());
+                        }
+
+
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }).start();
+
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
@@ -42,10 +69,16 @@ public class MainServerAppController implements Initializable
         ObservableList<String> userStatus = FXCollections.observableArrayList("Online", "Offline", "All Users");
         choiceUserStatusCB.setItems(userStatus);
         choiceUserStatusCB.setValue(userStatus.get(0));
-
     }
 
-
+    //геттеры
+    public static String getPort(){
+        int index = infoConnection.indexOf(":");
+        return infoConnection.substring(index+1);
+    }
+    public static String getIp(){
+        return infoConnection.replace(":"+getPort(),"");
+    }
     private void checkPort(int port){
         while(!isPortAviable(port))
             System.out.println(">Порт "+(port++)+" занят");
