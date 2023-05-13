@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 
 public class MainServerAppController implements Initializable
 {
+    //ip:port
     public static String infoConnection;
 
 
