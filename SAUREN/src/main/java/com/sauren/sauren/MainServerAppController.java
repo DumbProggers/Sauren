@@ -2,7 +2,6 @@ package com.sauren.sauren;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -11,13 +10,15 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainServerAppController implements Initializable
 {
+    public static String infoConnection;
+
+
     @FXML
-    public ChoiceBox choiceUserStatusCB;
+    public ChoiceBox<String> choiceUserStatusCB;
 
     @FXML
     public TextField serverPortTF;//порт
@@ -29,6 +30,7 @@ public class MainServerAppController implements Initializable
         try {
             //проверяем, занят ли порт и устанавливаем свободный если он занят!
             checkPort(  Integer.parseInt(   serverPortTF.getText()  ) );
+            infoConnection = serverIPLbl.getText()+":"+serverPortTF.getText();
 
 
             serverIPLbl.setText(Inet4Address.getLocalHost().getHostAddress());
