@@ -6,7 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class MainServerApp extends Application
+/*      ---<Bychkovsky Vladislav>---+---<Sidorov Ilya>---+---<Rakhmanov Temur>---      */
+
+public class MainServerApp extends Application // Главный класс всего сервера
 {
     @Override
     public void start(Stage stage) throws Exception
