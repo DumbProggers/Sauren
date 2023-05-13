@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/*      ---<Bychkovsky Vladislav>---+---<Sidorov Ilya>---+---<Rakhmanov Temur>---      */
+/*|     ---<Bychkovsky Vladislav>---+---<Sidorov Ilya>---+---<Rakhmanov Temur>---      |*/
 
 public class MainServerApp extends Application // Главный класс всего сервера
 {
