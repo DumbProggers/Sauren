@@ -9,14 +9,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="545.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sauren.sauren.MainServerAppController">
    <children>
       <HBox prefHeight="610.0" prefWidth="954.0">
          <children>
             <VBox prefHeight="610.0" prefWidth="215.0" style="-fx-border-color: #000;">
                <children>
-                  <ChoiceBox fx:id="userStateCB" prefHeight="26.0" prefWidth="239.0" />
+                  <ChoiceBox fx:id="choiceUserStatusCB" prefHeight="26.0" prefWidth="239.0" />
                   <ScrollPane prefHeight="560.0" prefWidth="214.0" />
                   <HBox prefHeight="100.0" prefWidth="214.0">
                      <children>
