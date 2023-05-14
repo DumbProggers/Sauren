@@ -64,9 +64,9 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox fx:id="userInfoVB" prefHeight="734.0" prefWidth="866.0">
+            <VBox fx:id="userInfoVB" prefHeight="734.0" prefWidth="866.0" spacing="5.0">
                <children>
-                  <HBox prefHeight="74.0" prefWidth="699.0">
+                  <HBox prefHeight="76.0" prefWidth="894.0" style="-fx-border-width: 1; -fx-border-color: #000;">
                      <children>
                         <ImageView fx:id="curUserIcoImg" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -97,14 +97,14 @@
                               </Label>
                            </children>
                         </VBox>
-                        <HBox prefHeight="74.0" prefWidth="229.0">
+                        <HBox prefHeight="74.0" prefWidth="594.0">
                            <children>
-                              <Label alignment="TOP_LEFT" prefHeight="70.0" prefWidth="109.0" text="IP: ">
+                              <Label alignment="TOP_LEFT" prefHeight="70.0" prefWidth="62.0" text="IP: ">
                                  <font>
                                     <Font name="System Bold" size="25.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="curUserIPLbl" alignment="TOP_LEFT" prefHeight="70.0" prefWidth="265.0" text="0000">
+                              <Label fx:id="curUserIPLbl" alignment="TOP_LEFT" prefHeight="70.0" prefWidth="176.0" text="0000">
                                  <font>
                                     <Font name="System Bold Italic" size="22.0" />
                                  </font>
@@ -113,7 +113,7 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="296.0" prefWidth="566.0">
+                  <HBox prefHeight="296.0" prefWidth="566.0" style="-fx-border-color: #000; -fx-border-radius: 2;">
                      <children>
                         <ImageView fx:id="lastScreenImg" fitHeight="347.0" fitWidth="498.0" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
@@ -133,17 +133,23 @@
                               </InnerShadow>
                            </effect>
                         </ImageView>
-                        <Label fx:id="infoUserPieChart" prefHeight="300.0" prefWidth="348.0" text="Label">
+                        <Label fx:id="infoUserPieChart" alignment="TOP_LEFT" prefHeight="300.0" prefWidth="348.0" text="App data:">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
                      </children>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="357.0" prefWidth="665.0">
+                  <HBox prefHeight="357.0" prefWidth="665.0" style="-fx-border-color: #000;">
                      <children>
                         <PieChart fx:id="pieChart" labelsVisible="false" legendSide="LEFT" prefHeight="357.0" prefWidth="872.0" title="Stats" />
                      </children>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>
