@@ -39,15 +39,13 @@ public class MainServerAppController implements Initializable
                     try
                     {
                         Thread.sleep(1000);
-                        for (String user:ServerHandler.nameUsersOnlineStringList)
+                        System.out.println("#Online users:");
+                        for(ClientUser usr:ServerHandler.users)
                         {
-                            System.out.print(user+"\n");
+                            if(usr.userOnline())
+                            System.out.println(usr.getName()+" : "+usr.getIp());
                         }
-
-                        for (Channel user:ServerHandler.usersOnlineChannekList)
-                        {
-                            System.out.println(user.remoteAddress());
-                        }
+                        System.out.println("###########################");
                     } catch (InterruptedException e) { throw new RuntimeException(e); }
                 }
             }).start();

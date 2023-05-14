@@ -9,67 +9,93 @@ import java.util.*;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Object>{//класс обработчик (In) - работаем на вход данных
     public static String file_dir = "D:\\saurenScreens\\";
-    private String ClientName;
-    private String username ="";
-    private String message ="";
-    public static List<Channel> usersOnlineChannekList = new ArrayList<>();
-    public static List<String> nameUsersOnlineStringList = new ArrayList<String>();
-    public static int delay;//задержка отправки
+    public static ArrayList<ClientUser> users=new ArrayList<>();
+
+    private String getIpFromCTX(ChannelHandlerContext ctx)
+    {
+        String ip=ctx.channel().remoteAddress().toString();
+        ip=ip.substring(1,ip.indexOf(":"));//убираем лишнее
+        return ip;
+    }
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception
     {
-        ClientName = ctx.channel().remoteAddress().toString();
-        System.out.println("> Client Connected: " + ClientName);
-        usersOnlineChannekList.add(ctx.channel());
-        System.out.println("Users online: "+ usersOnlineChannekList.size());
-    }
-    @Override
-    public void handlerRemoved(ChannelHandlerContext ctx)
-    {
-        System.out.println(ctx.channel().remoteAddress()+" Disconected");
-        nameUsersOnlineStringList.remove(ClientName+":"+username);
-        System.out.println(ClientName+" disconected");
-        usersOnlineChannekList.remove(ctx.channel());
-        System.out.println("Users online: "+ usersOnlineChannekList.size());
-        ctx.close();
-    }
+        String curIP=getIpFromCTX(ctx);
+        System.out.println(curIP);
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause){
-        cause.fillInStackTrace();
-    }
-
-    @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception
-    {
-        if(o instanceof String){//получаем "user\ПРИЛОЖЕНИЕ\ПРОЕКТ"
-            message = o.toString();
-            username = o.toString();
-            int index = username.indexOf("\\");
-            username = username.substring(0,index);
-
-            nameUsersOnlineStringList.add(ClientName+":"+username);
-            //удалить повторения
-            Set<String> set = new HashSet<>(nameUsersOnlineStringList);
-            nameUsersOnlineStringList.clear();
-            nameUsersOnlineStringList.addAll(set);
-        }
-        if(o instanceof FileUploadFile){     saveFile((FileUploadFile) o);  }
-        if(o instanceof Integer)
+        for(ClientUser currentUsr:users)
         {
-            delay = (int) o;
-            System.out.println("DELAY "+username+": "+delay);
+            if(currentUsr.getIp().equals(curIP) && currentUsr.userOnline())  return;//если такой пользователь существует и он подключен
+            else if(currentUsr.getIp().equals(curIP))//если пользователь существует, но не подключен
+            {
+                currentUsr.setOnline(true);
+                System.out.println("> User "+currentUsr.getName() + " now Online!!!");
+                return;
+            }
+        }
+        //если пользователя не существует, создаем и добавляем
+        ClientUser newUsr=new ClientUser();
+        newUsr.setChannel(ctx.channel());
+        newUsr.setIp(curIP);
+        newUsr.setOnline(true);
+        System.out.println("> New User in System!!! "+newUsr.getIp());
+        users.add(newUsr);
+    }
+    @Override
+    public void handlerRemoved(ChannelHandlerContext ctx)//пользователь отключился
+    {
+        String curIp=getIpFromCTX(ctx);
+        for(ClientUser currentUsr:users)
+        {
+            if(currentUsr.getIp().equals(curIp))
+            {
+                currentUsr.setOnline(false);
+                System.out.println("> User "+currentUsr.getName()+" disconnected!");
+                currentUsr.getChannel().close();
+                return;
+            }
+        }
+        System.out.println(">>>Disconnection error??? (ServerHandler - handlerRemoved");
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause){ cause.fillInStackTrace(); }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, Object o) throws Exception//получение сообщения от клиента
+    {
+        String curIp=getIpFromCTX(ctx);
+        for(ClientUser currentUsr:users) {
+            if(currentUsr.getIp().equals(curIp)) //если нашли отправителя
+            {
+                String message;
+                if (o instanceof String)//получаем "user\ПРИЛОЖЕНИЕ\ПРОЕКТ"
+                {
+                    message = o.toString();
+                    int index = message.indexOf("\\");
+                    currentUsr.setName(message.substring(0, index));
+                    currentUsr.setLastFilePath(message);
+                }
+                if (o instanceof FileUploadFile)
+                {
+                    saveFile((FileUploadFile) o,currentUsr);
+                }
+                if (o instanceof Integer) //если пришла задержка
+                {
+                    currentUsr.setScreensDelay((int)o);
+                }
+            }
         }
     }
 
-   public void saveFile(FileUploadFile o) throws IOException
+   public void saveFile(FileUploadFile o,ClientUser sender) throws IOException
    {
         byte[] bytes = o.getBytes();
        int byteRead = o.getEndPos();
 
         String filename = getCurrentDate()+".png";
-        String path = file_dir + File.separator + message + File.separator + filename;
-        String pathToScreens = file_dir + File.separator + message;
+        String path = file_dir + File.separator + sender.getLastFilePath() + File.separator + filename;
+        String pathToScreens = file_dir + File.separator + sender.getLastFilePath();
 
         File theDir = new File(pathToScreens);
         if (!theDir.exists()){
@@ -84,7 +110,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
         randomAccessFile.write(bytes);
         randomAccessFile.close();
 
-        System.out.println(username+" send file"+"\nFile save to:"+path);
+        System.out.println(sender.getName()+" send file"+"\nFile save to:"+path);
     }
 
     public static String getCurrentDate()
