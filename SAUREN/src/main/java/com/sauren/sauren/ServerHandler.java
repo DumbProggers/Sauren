@@ -101,6 +101,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
         String path = file_dir + File.separator + sender.getLastFilePath() + File.separator + filename;
         String pathToScreens = file_dir + File.separator + sender.getLastFilePath();
 
+        sender.setLastScreenPath(file_dir +sender.getLastFilePath() + File.separator + filename);
         File theDir = new File(pathToScreens);
         if (!theDir.exists()){
             theDir.mkdirs();
@@ -132,7 +133,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     public static void saveUsersToUsersBase()
     {
         String data="";
-        for(ClientUser usr:users)   {   data += usr.getName() + ":" + usr.getIp() + "\n";   }
+        for(ClientUser usr:users)   {   data += usr.getName() + ":" + usr.getIp()+":"+usr.getLastScreenPath() + "\n";   }
+        //сохранил пользователя в формате "Имя:IP:ПутьКпоследнемуСкрину"
 
         try(FileWriter writer = new FileWriter("usersBase.txt", false))
         {
@@ -174,12 +176,18 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
             String temp=data.substring(0,index);
             ClientUser usr=new ClientUser();
             usr.setName(temp);
-
             data=data.substring(index+1);
-            index=data.indexOf("\n");
+
+            index=data.indexOf(":");
             temp=data.substring(0,index);
             usr.setIp(temp);
             data= data.substring(index+1);
+
+            index=data.indexOf("\n");
+            temp=data.substring(0,index);
+            usr.setLastScreenPath(temp);
+            data= data.substring(index+1);
+
             users.add(usr);
         }
     }

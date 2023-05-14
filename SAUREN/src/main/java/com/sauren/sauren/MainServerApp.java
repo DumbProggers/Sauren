@@ -22,7 +22,8 @@ public class MainServerApp extends Application // Главный класс вс
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() throws Exception
+    {
         super.stop();
         System.exit(0);
     }

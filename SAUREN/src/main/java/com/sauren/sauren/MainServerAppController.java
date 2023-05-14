@@ -11,11 +11,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
 import java.net.*;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainServerAppController implements Initializable
@@ -23,12 +25,21 @@ public class MainServerAppController implements Initializable
     @FXML
     private ChoiceBox<String> choiceUserStatusCB;
     ObservableList<String> userStatusOL = FXCollections.observableArrayList("Online", "Offline", "All Users");
+    Timeline getLastScreenT;//таймер для получения последнего полученного скриншота пользователя
     @FXML
     private TextField serverPortTF;//порт
     @FXML
     private Label serverIPLbl;
     @FXML
     private VBox clientsVB;
+    @FXML
+    private VBox userInfoVB;
+    @FXML
+    private Label curUserNameLbl;
+    @FXML
+    private Label curUserStateLbl;
+    @FXML
+    private ImageView lastScreenImg;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -91,7 +102,7 @@ public class MainServerAppController implements Initializable
        {
            if((onlineUsersFilter&&usr.userOnline()) || (offlineUsersFilter && !usr.userOnline()) || allUsersFilter)
            {//создаем кнопку
-               UserButton newBtn=new UserButton();
+               UserButton newBtn=new UserButton(this,usr);
                newBtn.setUserName(usr.getName());
                newBtn.setUserIp(usr.getIp());
                newBtn.setUserState(usr.userOnline());
@@ -103,5 +114,35 @@ public class MainServerAppController implements Initializable
     public  void changeShowenUsersState(ActionEvent actionEvent)
     {
         updateClientsPannel();
+    }
+
+    public void showUserInfo(ClientUser usr)
+    {
+        userInfoVB.setVisible(true);
+        curUserNameLbl.setText(usr.getName());//установка имени
+        if(usr.userOnline())//установка статуса
+        {
+            curUserStateLbl.setText("online");
+            curUserStateLbl.setTextFill(Paint.valueOf("#3adf6e"));
+        }
+        else
+        {
+            curUserStateLbl.setText("offline");
+            curUserStateLbl.setTextFill(Paint.valueOf("#de3c3c"));
+        }
+        if(getLastScreenT!=null)    getLastScreenT.stop();
+        Timeline timeline = new Timeline (//таймер для периодичекого обновления последнего скриншота
+                new KeyFrame(
+                        Duration.millis(500), //0,5  сек
+                        ae ->
+                        {
+                            lastScreenImg.setImage(new Image(usr.getLastScreenPath()));
+                            //System.out.println(usr.getLastScreenPath());
+                        })
+        );
+        getLastScreenT=timeline;
+        getLastScreenT.setCycleCount(Integer.MAX_VALUE); //Ограничим число повторений
+        getLastScreenT.play(); //Запускаем
+
     }
 }

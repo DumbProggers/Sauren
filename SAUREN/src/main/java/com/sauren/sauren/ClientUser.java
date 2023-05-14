@@ -12,6 +12,7 @@ public class ClientUser //класс клиента
     private boolean isOnline;
     private Channel userChannel;
     private String lastFilePath;//путь для сохранения следующего полученного файла
+    private String lastScreenPath;//путь последнего полученного скриншота
 
     public ClientUser()
     {
@@ -35,6 +36,7 @@ public class ClientUser //класс клиента
     public void setOnline(boolean online)    {isOnline=online;}
     public void setChannel(Channel ch)  {userChannel=ch;}
     public void setLastFilePath(String path)    {lastFilePath=path;}
+    public void setLastScreenPath(String path)    {lastScreenPath=path;}
 
     public String getName() {return name;}
     public String getIp()   {return ip;}
@@ -42,5 +44,5 @@ public class ClientUser //класс клиента
     public boolean userOnline() {return isOnline;}
     public Channel getChannel()    {return userChannel;}
     public String getLastFilePath() {return lastFilePath;}
-
+    public String getLastScreenPath() {return lastScreenPath;}
 }

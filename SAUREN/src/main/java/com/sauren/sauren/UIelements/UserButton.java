@@ -1,5 +1,8 @@
 package com.sauren.sauren.UIelements;
 
+import com.sauren.sauren.ClientUser;
+import com.sauren.sauren.MainServerAppController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -15,6 +19,8 @@ import javafx.scene.shape.Rectangle;
 
 public class UserButton extends VBox
 {
+    private ClientUser user;
+    private static MainServerAppController mainApp;
     @FXML
     private ImageView userIcoImg;
     @FXML
@@ -23,7 +29,7 @@ public class UserButton extends VBox
     private Label userIPLbl;
     @FXML
     private Label userStateLbl;
-    public UserButton()
+    public UserButton(MainServerAppController app,ClientUser usr)
     {
         FXMLLoader loader=new FXMLLoader(getClass().getResource("UserButton.fxml"));
         loader.setRoot(this);
@@ -31,38 +37,25 @@ public class UserButton extends VBox
         try {
             loader.load();
         }catch(Exception ex){ex.printStackTrace();}
-
-        roundImage(userIcoImg);
-
-        // set a clip to apply rounded border to the original image.
-
-
-
-
+        mainApp=app;
+        user=usr;
+        roundIcon(userIcoImg);
     }
 
-    public UserButton(String Name,String ip)
+    public void clicked(MouseEvent me)//когда нажали на "кнопку" пользователя
     {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("UserButton.fxml"));
-        loader.setRoot(this);
-        loader.setController(this);
-        try {
-            loader.load();
-        }catch(Exception ex){ex.printStackTrace();}
-
-        userNameLbl.setText(Name);
-        userIPLbl.setText(ip);
+         mainApp.showUserInfo(user);
     }
 
 
-    public static void roundImage(ImageView image){
+    public static void roundIcon(ImageView image)
+    {
         Rectangle clip = new Rectangle(
                 image.getFitWidth(), image.getFitHeight()
         );
         clip.setArcWidth(100);
         clip.setArcHeight(100);
         image.setClip(clip);
-
         // snapshot the rounded image.
         SnapshotParameters parameters = new SnapshotParameters();
         parameters.setFill(Color.TRANSPARENT);
