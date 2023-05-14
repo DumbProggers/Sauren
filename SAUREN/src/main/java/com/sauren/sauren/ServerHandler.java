@@ -1,13 +1,13 @@
 package com.sauren.sauren;
 
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.io.*;
 import java.util.*;
 
-public class ServerHandler extends SimpleChannelInboundHandler<Object>{//класс обработчик (In) - работаем на вход данных
+public class ServerHandler extends SimpleChannelInboundHandler<Object>//класс обработчик (In) - работаем на вход данных
+{
     public static String file_dir = "D:\\saurenScreens\\";//основа пути к изображениям
     public static ArrayList<ClientUser> users=new ArrayList<>();//массив со всеми когда-либо подключенными пользователями
 
@@ -18,7 +18,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
         return ip;
     }
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception
+    public void channelActive(ChannelHandlerContext ctx)
     {
 
         String curIP=getIpFromCTX(ctx);
@@ -132,13 +132,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
     public static void saveUsersToUsersBase()
     {
         String data="";
-        for(ClientUser usr:users)
-        {
-            data+=usr.getName();
-            data+=":";
-            data+=usr.getIp();
-            data+="\n";
-        }
+        for(ClientUser usr:users)   {   data += usr.getName() + ":" + usr.getIp() + "\n";   }
 
         try(FileWriter writer = new FileWriter("usersBase.txt", false))
         {

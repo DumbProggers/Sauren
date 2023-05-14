@@ -4,7 +4,6 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
@@ -13,8 +12,6 @@ import java.io.*;
 import java.net.ConnectException;
 import java.net.Inet4Address;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Network
 {
@@ -43,7 +40,7 @@ public class Network
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 2048)
                     //.option(ChannelOption.SO_BACKLOG,Integer.MAX_VALUE)
-                    .childHandler(new ChannelInitializer<Channel>() {
+                    .childHandler(new ChannelInitializer<>() {
                         @Override
                         protected void initChannel(Channel channel) throws Exception {
                             channel.pipeline().addLast(
