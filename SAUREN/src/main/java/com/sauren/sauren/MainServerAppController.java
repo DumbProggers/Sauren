@@ -1,18 +1,16 @@
 package com.sauren.sauren;
 
-import io.netty.channel.Channel;
+import com.sauren.sauren.UIelements.UserButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.*;
 import java.util.ResourceBundle;
 
@@ -20,10 +18,13 @@ public class MainServerAppController implements Initializable
 {
     @FXML
     private ChoiceBox<String> choiceUserStatusCB;
+    ObservableList<String> userStatusOL = FXCollections.observableArrayList("Online", "Offline", "All Users");
     @FXML
     private TextField serverPortTF;//порт
     @FXML
     private Label serverIPLbl;
+    @FXML
+    private VBox clientsVB;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -68,9 +69,33 @@ public class MainServerAppController implements Initializable
                 }
             }).start();
         } catch (Exception e) { throw new RuntimeException(e); }
+
         //Заполнение ChoiceBox значениями о статусе пользователя.
-        ObservableList<String> userStatus = FXCollections.observableArrayList("Online", "Offline", "All Users");
-        choiceUserStatusCB.setItems(userStatus);
-        choiceUserStatusCB.setValue(userStatus.get(0));
+        choiceUserStatusCB.setItems(userStatusOL);
+        choiceUserStatusCB.setValue(userStatusOL.get(0));
+    }
+
+
+    public void updateClientsPannel()//заново вывести кнопки пользователей в левую панель
+    {
+       clientsVB.getChildren().clear();
+        boolean onlineUsersFilter=choiceUserStatusCB.getValue().equals(userStatusOL.get(0));
+        boolean offlineUsersFilter=choiceUserStatusCB.getValue().equals(userStatusOL.get(1));;
+        boolean allUsersFilter=choiceUserStatusCB.getValue().equals(userStatusOL.get(2));;
+       for(ClientUser usr:ServerHandler.users)
+       {
+           if((onlineUsersFilter&&usr.userOnline()) || (offlineUsersFilter && !usr.userOnline()) || allUsersFilter)
+           {
+               UserButton newBtn=new UserButton();
+               newBtn.setUserName(usr.getName());
+               newBtn.setUserIp(usr.getIp());
+               clientsVB.getChildren().add(newBtn);
+           }
+       }
+    }
+
+    public  void changeShowenUsersState(ActionEvent actionEvent)
+    {
+        updateClientsPannel();
     }
 }

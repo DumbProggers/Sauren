@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -7,19 +8,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<fx:root type="javafx.scene.layout.VBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="97.0" prefWidth="210.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="97.0" prefWidth="186.0" style="-fx-border-color: #000; -fx-border-width: 2; -fx-border-radius: 5;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
-      <HBox prefHeight="68.0" prefWidth="210.0">
+      <HBox prefHeight="98.0" prefWidth="182.0">
          <children>
-            <ImageView fx:id="userIconIm" fitHeight="69.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="72.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Files/fff.png" />
                </image>
             </ImageView>
-            <VBox prefHeight="68.0" prefWidth="182.0">
+            <VBox prefHeight="73.0" prefWidth="114.0">
                <children>
-                  <Label fx:id="userNameLbl" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="90.0" prefWidth="137.0" text="User000">
+                  <Label fx:id="userNameLbl" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="143.0" text="User000">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -28,9 +28,17 @@
             </VBox>
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox prefHeight="26.0" prefWidth="182.0">
          <children>
-            <Label alignment="BOTTOM_LEFT" prefHeight="30.0" prefWidth="86.0" text="Time in work:">
+            <Label alignment="BOTTOM_LEFT" prefHeight="25.0" prefWidth="94.0" text="user ip:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="userIPLbl" alignment="BOTTOM_LEFT" prefHeight="30.0" prefWidth="160.0" text="0000">
                <font>
                   <Font size="14.0" />
                </font>

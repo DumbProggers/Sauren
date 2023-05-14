@@ -32,6 +32,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
                 currentUsr.setOnline(true);
                 currentUsr.setChannel(ctx.channel());
                 System.out.println("> User "+currentUsr.getName() + " now Online!!!");
+                saveUsersToUsersBase();//добавить пользователя в файл
                 return;
             }
         }
@@ -81,7 +82,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
                 }
                 if (o instanceof FileUploadFile)
                 {
-                    System.out.println("FILE");
                     saveFile((FileUploadFile) o,currentUsr);
                 }
                 if (o instanceof Integer) //если пришла задержка
@@ -111,10 +111,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
        int start = 0;
        randomAccessFile.seek(start);
-        randomAccessFile.write(bytes);
-        randomAccessFile.close();
-
-        System.out.println(sender.getName()+" send file"+"\nFile save to:"+path);
+       randomAccessFile.write(bytes);
+       randomAccessFile.close();
     }
 
     public static String getCurrentDate()

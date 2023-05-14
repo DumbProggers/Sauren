@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -15,8 +16,14 @@
          <children>
             <VBox prefHeight="610.0" prefWidth="215.0" style="-fx-border-color: #000;">
                <children>
-                  <ChoiceBox fx:id="choiceUserStatusCB" prefHeight="26.0" prefWidth="239.0" />
-                  <ScrollPane prefHeight="560.0" prefWidth="214.0" />
+                  <ChoiceBox fx:id="choiceUserStatusCB" onAction="#changeShowenUsersState" prefHeight="26.0" prefWidth="239.0" />
+                  <ScrollPane prefHeight="560.0" prefWidth="214.0">
+                     <content>
+                        <VBox fx:id="clientsVB" prefHeight="518.0" prefWidth="211.0" spacing="5.0">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding></VBox>
+                     </content></ScrollPane>
                   <HBox prefHeight="100.0" prefWidth="214.0">
                      <children>
                         <VBox prefHeight="62.0" prefWidth="48.0" style="-fx-border-color: #000;">
