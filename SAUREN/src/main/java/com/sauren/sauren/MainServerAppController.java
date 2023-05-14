@@ -89,6 +89,7 @@ public class MainServerAppController implements Initializable
                UserButton newBtn=new UserButton();
                newBtn.setUserName(usr.getName());
                newBtn.setUserIp(usr.getIp());
+               newBtn.setUserState(usr.userOnline());
                clientsVB.getChildren().add(newBtn);
            }
        }

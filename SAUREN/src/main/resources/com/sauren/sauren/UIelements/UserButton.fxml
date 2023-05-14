@@ -8,20 +8,25 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="97.0" prefWidth="186.0" style="-fx-border-color: #000; -fx-border-width: 2; -fx-border-radius: 5;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" >
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="97.0" prefWidth="186.0" style="-fx-border-color: #000; -fx-border-width: 2; -fx-border-radius: 5;" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox prefHeight="98.0" prefWidth="182.0">
+      <HBox prefHeight="66.0" prefWidth="182.0">
          <children>
-            <ImageView fitHeight="72.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="78.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Files/fff.png" />
                </image>
             </ImageView>
             <VBox prefHeight="73.0" prefWidth="114.0">
                <children>
-                  <Label fx:id="userNameLbl" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="73.0" prefWidth="143.0" text="User000">
+                  <Label fx:id="userNameLbl" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="110.0" text="User000">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="userStateLbl" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="110.0" text="online" textFill="#3adf6e">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
                      </font>
                   </Label>
                </children>
