@@ -17,6 +17,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
+import java.text.ParseException;
+
 public class UserButton extends VBox
 {
     private ClientUser user;
@@ -42,9 +44,10 @@ public class UserButton extends VBox
         roundIcon(userIcoImg);
     }
 
-    public void clicked(MouseEvent me)//когда нажали на "кнопку" пользователя
+    public void clicked(MouseEvent me) throws ParseException//когда нажали на "кнопку" пользователя
     {
          mainApp.showUserInfo(user);
+
     }
 
 
