@@ -9,13 +9,32 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.Inet4Address;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Network {
+public class Network
+{
     //запускаем сервер на порту, который взяли с формы
-    public static final int port = Integer.parseInt(MainServerAppController.getPort());
-    public static void Start(){
+    private static int port;
+    private static String serverIP;
+
+    public Network()
+    {
+        port=checkPort(8189);//устанавлваем порт
+        try
+        {
+            serverIP = Inet4Address.getLocalHost().getHostAddress();//берем текущий ip
+        }catch(Exception ex){ex.printStackTrace();}
+    }
+    public static int getPort()    {return port;}
+    public static String getServerIp() {return serverIP;}
+    public static void Start()
+    {
+
         EventLoopGroup bossGrop = new NioEventLoopGroup(1);//обработка запросов в паралельных потоках. Пул поток
         EventLoopGroup workerGroup = new NioEventLoopGroup();//для работы
         try{
@@ -44,6 +63,24 @@ public class Network {
             //закрываем потоки, если сервер кто-то смог остановить и соответсвенно закрываем все. Если их не закрыть
             bossGrop.shutdownGracefully();
             workerGroup.shutdownGracefully();
+        }
+    }
+
+
+    private static int checkPort(int port)
+    {
+        while(!isPortAviable(port))
+            System.out.println("> Порт "+(port++)+" занят");
+        return port;
+    }
+    private static boolean isPortAviable(int port) throws IllegalStateException
+    {
+        try (Socket ignored = new Socket("localhost", port)) {
+            return false;
+        } catch (ConnectException e) {
+            return true;
+        } catch (IOException e) {
+            throw new IllegalStateException("Error while trying to check open port", e);
         }
     }
 }

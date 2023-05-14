@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class FileUploadFile implements Serializable {
+public class FileUploadFile implements Serializable //класс класса для передачи
+{
     @Serial
     private static final long serialVersionUID = 1L;
     private File file;// файл
