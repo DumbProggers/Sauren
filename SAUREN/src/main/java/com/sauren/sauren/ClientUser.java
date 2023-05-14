@@ -3,7 +3,6 @@ package com.sauren.sauren;
 import io.netty.channel.Channel;
 import javafx.scene.image.Image;
 
-/* -<By Vlad>-*/
 public class ClientUser //класс клиента
 {
     private String name;
