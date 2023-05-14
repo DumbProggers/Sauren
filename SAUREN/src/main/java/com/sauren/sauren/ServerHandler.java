@@ -20,6 +20,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception
     {
+
         String curIP=getIpFromCTX(ctx);
         System.out.println(curIP);
 
@@ -29,6 +30,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
             else if(currentUsr.getIp().equals(curIP))//если пользователь существует, но не подключен
             {
                 currentUsr.setOnline(true);
+                currentUsr.setChannel(ctx.channel());
                 System.out.println("> User "+currentUsr.getName() + " now Online!!!");
                 return;
             }
@@ -40,6 +42,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
         newUsr.setOnline(true);
         System.out.println("> New User in System!!! "+newUsr.getIp());
         users.add(newUsr);
+        saveUsersToUsersBase();
     }
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx)//пользователь отключился
@@ -78,6 +81,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
                 }
                 if (o instanceof FileUploadFile)
                 {
+                    System.out.println("FILE");
                     saveFile((FileUploadFile) o,currentUsr);
                 }
                 if (o instanceof Integer) //если пришла задержка
@@ -126,4 +130,65 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>{//кла�
         return str.substring(0, str.length() - n);
     }
 
+
+    public static void saveUsersToUsersBase()
+    {
+        String data="";
+        for(ClientUser usr:users)
+        {
+            data+=usr.getName();
+            data+=":";
+            data+=usr.getIp();
+            data+="\n";
+        }
+
+        try(FileWriter writer = new FileWriter("usersBase.txt", false))
+        {
+            // запись всей строки
+            writer.write(data);
+            // запись по символам
+            writer.flush();
+        }
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    public static String readFile(String file)
+    {
+        String dt = "";
+        try(BufferedReader br = new BufferedReader (new FileReader(file)))
+        {
+            // чтение посимвольно
+            int c;
+            while((c=br.read())!=-1){
+                //System.out.print((char)c);
+                dt+=(char)c;
+            }
+        }
+        catch(IOException ex){
+
+            System.out.println(ex.getMessage());
+        }
+        return dt;
+    }
+
+    public static void getUsersFromBase()//заполнить массив users пользователями, которые когда-либо подключались
+    {
+        users.clear();
+        String data=readFile("usersBase.txt");
+        while(data.length()>1)
+        {
+            int index=data.indexOf(":");
+            String temp=data.substring(0,index);
+            ClientUser usr=new ClientUser();
+            usr.setName(temp);
+
+            data=data.substring(index+1);
+            index=data.indexOf("\n");
+            temp=data.substring(0,index);
+            usr.setIp(temp);
+            data= data.substring(index+1);
+            users.add(usr);
+        }
+    }
 }

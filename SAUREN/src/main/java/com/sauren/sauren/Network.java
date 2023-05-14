@@ -9,7 +9,7 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.ConnectException;
 import java.net.Inet4Address;
 import java.net.Socket;
@@ -29,6 +29,28 @@ public class Network
         {
             serverIP = Inet4Address.getLocalHost().getHostAddress();//берем текущий ip
         }catch(Exception ex){ex.printStackTrace();}
+
+        //берем данные из базы пользователей
+        //String text = readFile("usersBase.txt");
+
+        /*while (text.length()>1)
+        {
+            int index = text.indexOf(":");
+            String temp=text.substring(0,index);
+
+            ClientUser user = new ClientUser();
+
+            user.setIp(temp);
+            text=text.replace(temp+":","");
+            index=text.indexOf("\n");
+            temp=text.substring(0,index);
+            user.setName(temp);
+            text=text.replace(temp+"\n","");
+            ServerHandler.users.add(user);
+        }
+        System.out.println("FFFFF"+ServerHandler.users.size());*/
+
+
     }
     public static int getPort()    {return port;}
     public static String getServerIp() {return serverIP;}
