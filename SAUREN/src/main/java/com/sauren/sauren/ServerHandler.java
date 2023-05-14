@@ -8,8 +8,8 @@ import java.io.*;
 import java.util.*;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Object>{//класс обработчик (In) - работаем на вход данных
-    public static String file_dir = "D:\\saurenScreens\\";
-    public static ArrayList<ClientUser> users=new ArrayList<>();
+    public static String file_dir = "D:\\saurenScreens\\";//основа пути к изображениям
+    public static ArrayList<ClientUser> users=new ArrayList<>();//массив со всеми когда-либо подключенными пользователями
 
     private String getIpFromCTX(ChannelHandlerContext ctx)
     {

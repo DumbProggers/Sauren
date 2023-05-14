@@ -31,21 +31,22 @@ public class MainServerAppController implements Initializable
             }).start();
             serverIPLbl.setText(Network.getServerIp());//установить текст для ip
             serverPortTF.setText(Integer.toString(Network.getPort()));//установить текст для порта
-            System.out.println(Network.getServerIp());
-            System.out.println(Network.getPort());
 
             new Thread(()->{
                 while (true){
                     try
                     {
                         Thread.sleep(1000);
+
                         System.out.println("#Online users:");
-                        for(ClientUser usr:ServerHandler.users)
+                        for(ClientUser usr:ServerHandler.users)//прохожусь по всем онлайн пользователям
                         {
-                            if(usr.userOnline())
-                            System.out.println(usr.getName()+" : "+usr.getIp());
+                            if(usr.userOnline()) {
+                                System.out.println(usr.getName() + " : " + usr.getIp());
+                            }
                         }
-                        System.out.println("###########################");
+                        System.out.println("###########################\n");
+
                     } catch (InterruptedException e) { throw new RuntimeException(e); }
                 }
             }).start();
