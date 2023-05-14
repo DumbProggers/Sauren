@@ -40,9 +40,12 @@ public class MainServerAppController implements Initializable
     private Label curUserStateLbl;
     @FXML
     private ImageView lastScreenImg;
+    @FXML
+    private Label curUserIPLbl;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        userInfoVB.setVisible(false);
         try
         {
             Network mainNetwork=new Network();
@@ -120,29 +123,28 @@ public class MainServerAppController implements Initializable
     {
         userInfoVB.setVisible(true);
         curUserNameLbl.setText(usr.getName());//установка имени
-        if(usr.userOnline())//установка статуса
-        {
-            curUserStateLbl.setText("online");
-            curUserStateLbl.setTextFill(Paint.valueOf("#3adf6e"));
-        }
-        else
-        {
-            curUserStateLbl.setText("offline");
-            curUserStateLbl.setTextFill(Paint.valueOf("#de3c3c"));
-        }
+        curUserIPLbl.setText(usr.getIp());//установка ip пользователя
         if(getLastScreenT!=null)    getLastScreenT.stop();
         Timeline timeline = new Timeline (//таймер для периодичекого обновления последнего скриншота
                 new KeyFrame(
                         Duration.millis(500), //0,5  сек
                         ae ->
                         {
-                            lastScreenImg.setImage(new Image(usr.getLastScreenPath()));
-                            //System.out.println(usr.getLastScreenPath());
+                            lastScreenImg.setImage(new Image(usr.getLastScreenPath()));//установка последнего полученного скриншота
+                            if(usr.userOnline())//установка статуса (онлайн/оффлайн)
+                            {
+                                curUserStateLbl.setText("online");
+                                curUserStateLbl.setTextFill(Paint.valueOf("#3adf6e"));
+                            }
+                            else
+                            {
+                                curUserStateLbl.setText("offline");
+                                curUserStateLbl.setTextFill(Paint.valueOf("#de3c3c"));
+                            }
                         })
         );
         getLastScreenT=timeline;
         getLastScreenT.setCycleCount(Integer.MAX_VALUE); //Ограничим число повторений
         getLastScreenT.play(); //Запускаем
-
     }
 }

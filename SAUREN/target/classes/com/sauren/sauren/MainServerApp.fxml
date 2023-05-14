@@ -7,11 +7,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="545.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sauren.sauren.MainServerAppController">
@@ -70,6 +72,13 @@
                            <image>
                               <Image url="@UIelements/Files/fff.png" />
                            </image>
+                           <effect>
+                              <InnerShadow choke="0.42">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </InnerShadow>
+                           </effect>
                         </ImageView>
                         <VBox prefHeight="70.0" prefWidth="199.0">
                            <children>
@@ -88,6 +97,20 @@
                               </Label>
                            </children>
                         </VBox>
+                        <HBox prefHeight="70.0" prefWidth="353.0">
+                           <children>
+                              <Label alignment="TOP_LEFT" prefHeight="70.0" prefWidth="42.0" text="IP: ">
+                                 <font>
+                                    <Font name="System Bold" size="25.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="curUserIPLbl" alignment="TOP_LEFT" prefHeight="70.0" prefWidth="314.0" text="0000">
+                                 <font>
+                                    <Font name="System Bold Italic" size="22.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                   </HBox>
                   <HBox prefHeight="242.0" prefWidth="742.0">
@@ -102,6 +125,13 @@
                            <viewport>
                               <Rectangle2D height="240.0" />
                            </viewport>
+                           <effect>
+                              <InnerShadow choke="0.5" height="30.37" radius="14.11" width="28.07">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </InnerShadow>
+                           </effect>
                         </ImageView>
                      </children>
                   </HBox>
