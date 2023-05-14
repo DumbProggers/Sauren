@@ -116,7 +116,7 @@ public class MainServerAppController implements Initializable
         updateClientsPannel();
     }
 
-    public void showUserInfo(ClientUser usr)
+    public void showUserInfo(ClientUser usr)//показывать всю информацию о пользователе в правой части
     {
         userInfoVB.setVisible(true);
         curUserNameLbl.setText(usr.getName());//установка имени
