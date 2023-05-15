@@ -37,9 +37,7 @@ public class MainServerAppController implements Initializable
     ObservableList<String> userStatusOL = FXCollections.observableArrayList("Online", "Offline", "All Users");
     Timeline getLastScreenT;//таймер для получения последнего полученного скриншота пользователя
     @FXML
-    private TextField serverPortTF;//порт
-    @FXML
-    private Label serverIPLbl;
+    private TextField connectionInfoLbl;//ip:port
     @FXML
     private VBox clientsVB;
     @FXML
@@ -65,8 +63,7 @@ public class MainServerAppController implements Initializable
             new Thread(()->{
                 mainNetwork.Start();
             }).start();
-            serverIPLbl.setText(Network.getServerIp());//установить текст для ip
-            serverPortTF.setText(Integer.toString(Network.getPort()));//установить текст для порта
+            connectionInfoLbl.setText(Network.getServerIp()+":"+Integer.toString(Network.getPort()));//установить ip и порт сервера
 
             ServerHandler.getUsersFromBase();
 

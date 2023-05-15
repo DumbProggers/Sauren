@@ -18,6 +18,7 @@ public class MainServerApp extends Application // Главный класс вс
         Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainServerApp.fxml")));
         Scene mainSc=new Scene( root);
         stage.setScene(mainSc);
+        stage.setTitle("SAUREN");
         stage.show();
     }
 

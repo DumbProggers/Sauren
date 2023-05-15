@@ -7,82 +7,77 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="734.0" prefWidth="1086.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sauren.sauren.MainServerAppController">
+<AnchorPane prefHeight="744.0" prefWidth="1074.0" style="-fx-background-color: #7FC7FF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sauren.sauren.MainServerAppController">
    <children>
-      <HBox prefHeight="734.0" prefWidth="1086.0">
+      <StackPane prefHeight="734.0" prefWidth="1082.0" />
+      <ImageView blendMode="OVERLAY" fitHeight="744.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@UIelements/Files/logologe_noname.png" />
+         </image>
+         <effect>
+            <InnerShadow height="23.34" radius="18.19" width="51.42">
+               <color>
+                  <Color red="1.0" green="1.0" blue="1.0" />
+               </color>
+            </InnerShadow>
+         </effect>
+      </ImageView>
+      <HBox prefHeight="744.0" prefWidth="1082.0">
          <children>
-            <VBox prefHeight="727.0" prefWidth="215.0" style="-fx-border-color: #000;">
+            <VBox prefHeight="727.0" prefWidth="215.0" style="-fx-border-color: #000; -fx-background-color: #2271B3BD;">
                <children>
-                  <ChoiceBox fx:id="choiceUserStatusCB" onAction="#changeShowenUsersState" prefHeight="26.0" prefWidth="239.0" />
-                  <ScrollPane prefHeight="719.0" prefWidth="213.0">
+                  <ChoiceBox fx:id="choiceUserStatusCB" onAction="#changeShowenUsersState" prefHeight="26.0" prefWidth="239.0" style="-fx-background-color: #2B84CA;" />
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="719.0" prefWidth="213.0" style="-fx-background-color: #000;">
                      <content>
-                        <VBox fx:id="clientsVB" prefHeight="518.0" prefWidth="211.0" spacing="5.0">
+                        <VBox fx:id="clientsVB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="647.0" prefWidth="214.0" spacing="5.0" style="-fx-background-color: #5BA4DC;">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </padding></VBox>
-                     </content></ScrollPane>
-                  <HBox prefHeight="150.0" prefWidth="213.0">
+                           </padding>
+                        </VBox>
+                     </content>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </ScrollPane>
+                  <VBox prefHeight="142.0" prefWidth="214.0" style="-fx-background-color: #00538A; -fx-border-color: #000;">
                      <children>
-                        <VBox prefHeight="62.0" prefWidth="48.0" style="-fx-border-color: #000;">
-                           <children>
-                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="IP: " VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Port:" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="91.0" prefWidth="165.0" style="-fx-border-color: #000;">
-                           <children>
-                              <Label fx:id="serverIPLbl" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="localhost" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold Italic" size="16.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="serverPortTF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="164.0" text="8189" VBox.vgrow="ALWAYS">
-                                 <font>
-                                    <Font name="System Bold Italic" size="16.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                        </VBox>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="212.0" text="IP:PORT" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="connectionInfoLbl" alignment="CENTER" editable="false" prefHeight="56.0" prefWidth="212.0" promptText="ip:port" style="-fx-background-color: #0067a5;">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </TextField>
                      </children>
-                  </HBox>
+                  </VBox>
                </children>
             </VBox>
             <VBox fx:id="userInfoVB" prefHeight="734.0" prefWidth="866.0" spacing="5.0">
                <children>
-                  <HBox prefHeight="76.0" prefWidth="894.0" style="-fx-border-width: 1; -fx-border-color: #000;">
+                  <HBox prefHeight="76.0" prefWidth="894.0" style="-fx-border-width: 1; -fx-border-color: #000; -fx-background-color: #5BA4DC;">
                      <children>
                         <ImageView fx:id="curUserIcoImg" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@UIelements/Files/fff.png" />
                            </image>
-                           <effect>
-                              <InnerShadow choke="0.42">
-                                 <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" />
-                                 </color>
-                              </InnerShadow>
-                           </effect>
                         </ImageView>
                         <VBox prefHeight="70.0" prefWidth="199.0">
                            <children>
-                              <Label fx:id="curUserNameLbl" prefHeight="20.0" prefWidth="199.0" text="None">
+                              <Label fx:id="curUserNameLbl" prefHeight="20.0" prefWidth="199.0" text="None" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="30.0" />
                                  </font>
@@ -99,12 +94,12 @@
                         </VBox>
                         <HBox prefHeight="74.0" prefWidth="594.0">
                            <children>
-                              <Label alignment="TOP_LEFT" prefHeight="70.0" prefWidth="62.0" text="IP: ">
+                              <Label alignment="TOP_LEFT" prefHeight="70.0" prefWidth="62.0" text="IP: " textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="25.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="curUserIPLbl" alignment="TOP_LEFT" prefHeight="70.0" prefWidth="176.0" text="0000">
+                              <Label fx:id="curUserIPLbl" alignment="TOP_LEFT" prefHeight="70.0" prefWidth="176.0" text="0000" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold Italic" size="22.0" />
                                  </font>
@@ -113,7 +108,7 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="296.0" prefWidth="566.0" style="-fx-border-color: #000; -fx-border-radius: 2;">
+                  <HBox prefHeight="296.0" prefWidth="566.0" style="-fx-border-color: #000; -fx-border-radius: 2; -fx-background-color: #5BA4DCC2;">
                      <children>
                         <ImageView fx:id="lastScreenImg" fitHeight="347.0" fitWidth="498.0" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
@@ -126,24 +121,26 @@
                               <Rectangle2D height="240.0" />
                            </viewport>
                            <effect>
-                              <InnerShadow choke="0.5" height="30.37" radius="14.11" width="28.07">
-                                 <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" />
-                                 </color>
-                              </InnerShadow>
+                              <DropShadow height="16.32" radius="8.245000000000001" spread="0.42" width="18.66" />
                            </effect>
                         </ImageView>
-                        <Label fx:id="infoUserPieChart" alignment="TOP_LEFT" prefHeight="300.0" prefWidth="348.0" text="App data:">
+                        <Label fx:id="infoUserPieChart" alignment="TOP_LEFT" prefHeight="300.0" prefWidth="348.0" style="-fx-border-color: #000; -fx-background-color: #2271B3;" text="App data:" textFill="WHITE">
                            <font>
-                              <Font size="15.0" />
+                              <Font name="Gadugi Bold" size="15.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
                         </Label>
                      </children>
                      <VBox.margin>
                         <Insets left="5.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="357.0" prefWidth="665.0" style="-fx-border-color: #000;">
+                  <HBox prefHeight="357.0" prefWidth="665.0" style="-fx-border-color: #000; -fx-background-color: #5BA4DCC2;">
                      <children>
                         <PieChart fx:id="pieChart" labelsVisible="false" legendSide="LEFT" prefHeight="357.0" prefWidth="872.0" title="Stats" />
                      </children>
