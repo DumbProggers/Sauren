@@ -55,6 +55,12 @@ public class MainServerAppController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        pieChart.setStyle("-fx-text-fill: #191970;");
+
+        connectionInfoLbl.setStyle("-fx-text-inner-color: white;" +
+                "-fx-background-color:  #0067a5");
+
+
         userInfoVB.setVisible(false);
         try
         {
