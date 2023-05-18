@@ -19,12 +19,12 @@
             </ImageView>
             <VBox prefHeight="73.0" prefWidth="114.0">
                <children>
-                  <Label fx:id="userNameLbl" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="22.0" prefWidth="110.0" text="User000">
+                  <Label fx:id="userNameLbl" prefHeight="27.0" prefWidth="119.0" text="Label">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="userStateLbl" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="110.0" text="online" textFill="#3adf6e">
+                  <Label fx:id="userStateLbl" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="39.0" prefWidth="110.0" text="online" textFill="#3adf6e">
                      <font>
                         <Font name="System Italic" size="14.0" />
                      </font>

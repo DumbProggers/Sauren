@@ -52,6 +52,8 @@ public class MainServerAppController implements Initializable
     private Label curUserIPLbl;
     @FXML
     private PieChart pieChart;
+    @FXML
+    private TextField msgToUserTF;
     private static ClientUser currentUser;//выбранный пользователь
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
@@ -329,10 +331,14 @@ public class MainServerAppController implements Initializable
     {
         if(currentUser.userOnline())
         {
-            String msg="$MSG$";
-            msg+="Hoi";
-            currentUser.getChannel().writeAndFlush(msg);
-            System.out.println(">SEND MESSAGE TO USER " + currentUser.getName() + ": " + msg);
+            if(msgToUserTF.getText().length()>0)
+            {
+                String msg = "$MSG$";
+                msg += msgToUserTF.getText();
+                msgToUserTF.setText("");
+                currentUser.getChannel().writeAndFlush(msg);
+                System.out.println(">SEND MESSAGE TO USER " + currentUser.getName() + ": " + msg);
+            }
         }
         else System.out.println(">!CAN`T SEND MESSAGE, USER IS OFFLINE");
     }
