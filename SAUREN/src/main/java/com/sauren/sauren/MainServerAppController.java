@@ -179,22 +179,18 @@ public class MainServerAppController implements Initializable
         });
         String info="";
         addDatainPieChart(dirs,pieChartData,info);
-
         //pieChart.setTitle(user.getName());
         pieChart.setData(pieChartData);
 
-
         drawPieChar(pieChart,pieChartData,dirs,infoUserPieChart,user.getName());
-        System.out.println("PRIECHARt");
-        System.out.println(user.getLastScreenPath());
-
-
-
+        //System.out.println("PRIECHARt");
+        //System.out.println(user.getLastScreenPath());
     }
     public static void addDatainPieChart(File[] dirs,ObservableList<PieChart.Data> pieChartData,String info) throws ParseException {
         int count = 0;
-        if (dirs == null){
-            System.out.println("DIR IS NULL");
+        if (dirs == null)
+        {
+            System.out.println("User NOT SELECTED");
             //userInfo.setText("User not selected");
         }
         else {
@@ -211,7 +207,8 @@ public class MainServerAppController implements Initializable
             }
         }
     }
-    public static void addHandlerPieChar(PieChart pieChart,Label userInfo){
+    public static void addHandlerPieChar(PieChart pieChart,Label userInfo)
+    {
         //Обработка событий
         for (final PieChart.Data data2 : pieChart.getData()) {
             data2.getNode().addEventHandler(MouseEvent.ANY, new EventHandler<MouseEvent>() {
@@ -329,7 +326,8 @@ public class MainServerAppController implements Initializable
 
     public void sendMessageToUser(ActionEvent actionEvent) //отправить сообщение клиенту
     {
-        String msg="Hui";
+        String msg="$MSG";
+        msg+="Hoi";
         currentUser.getChannel().writeAndFlush(msg);
         System.out.println(">SEND MESSAGE TO USER "+currentUser.getName()+": "+msg);
     }
