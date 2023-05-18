@@ -52,32 +52,28 @@ public class MainServerAppController implements Initializable
     private Label curUserIPLbl;
     @FXML
     private PieChart pieChart;
+    private static ClientUser currentUser;//выбранный пользователь
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        pieChart.setStyle("-fx-text-fill: #191970;");
+        pieChart.setStyle("-fx-text-fill: #191970;");//для белого цвета текста
+        connectionInfoLbl.setStyle("-fx-text-inner-color: white;" + "-fx-background-color:  #0067a5");//для белого цвета текста
 
-        connectionInfoLbl.setStyle("-fx-text-inner-color: white;" +
-                "-fx-background-color:  #0067a5");
-
-
-        userInfoVB.setVisible(false);
+        userInfoVB.setVisible(false);//прячу панель с информацией о выбранном пользователе
         try
         {
             Network mainNetwork=new Network();
             //запускаем сервер с нужными нам параметрами (infoConnection)
-            new Thread(()->{
-                mainNetwork.Start();
-            }).start();
-            connectionInfoLbl.setText(Network.getServerIp()+":"+Integer.toString(Network.getPort()));//установить ip и порт сервера
+            new Thread(()->{     mainNetwork.Start();   }).start();
+            connectionInfoLbl.setText(Network.getServerIp()+":"+Integer.toString(Network.getPort()));//вывести ip и порт сервера
 
-            ServerHandler.getUsersFromBase();
+            ServerHandler.getUsersFromBase();//получить данные ранее подключенных пользователей
 
             new Thread(()->{//прохожусь по всем онлайн пользователям
                 while (true){
                     try
                     {
-                        Thread.sleep(1000);
+                        Thread.sleep(2000);
                         System.out.println("\n#Online users:");
                         for(ClientUser usr:ServerHandler.users)//прохожусь по всем онлайн пользователям
                         {
@@ -136,6 +132,7 @@ public class MainServerAppController implements Initializable
 
     public void showUserInfo(ClientUser usr) throws ParseException//показывать всю информацию о пользователе в правой части
     {
+        currentUser=usr;
         userInfoVB.setVisible(true);
         curUserNameLbl.setText(usr.getName());//установка имени
         curUserIPLbl.setText(usr.getIp());//установка ip пользователя
@@ -166,7 +163,8 @@ public class MainServerAppController implements Initializable
 
         pieChart(usr);
     }
-    public void pieChart(ClientUser user) throws ParseException {
+    public void pieChart(ClientUser user) throws ParseException //вывод круговой диаграммы(обновление)
+    {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
         File file = new File(ServerHandler.file_dir+File.separator+user.getName());
@@ -290,7 +288,6 @@ public class MainServerAppController implements Initializable
 
     public static long getDelay() throws ParseException {
         int delay=1000;
-
         return delay;
     }
     public static String getTimeinExe(String pathAbs) throws ParseException {
@@ -328,5 +325,12 @@ public class MainServerAppController implements Initializable
                 }
             }
         return count;
+    }
+
+    public void sendMessageToUser(ActionEvent actionEvent) //отправить сообщение клиенту
+    {
+        String msg="Hui";
+        currentUser.getChannel().writeAndFlush(msg);
+        System.out.println(">SEND MESSAGE TO USER "+currentUser.getName()+": "+msg);
     }
 }
