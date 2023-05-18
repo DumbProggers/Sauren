@@ -20,7 +20,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     @Override
     public void channelActive(ChannelHandlerContext ctx)
     {
-
         String curIP=getIpFromCTX(ctx);
         System.out.println(curIP);
 
@@ -31,6 +30,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
             {
                 currentUsr.setOnline(true);
                 currentUsr.setChannel(ctx.channel());
+
                 System.out.println("> User "+currentUsr.getName() + " now Online!!!");
                 saveUsersToUsersBase();//добавить пользователя в файл
                 return;

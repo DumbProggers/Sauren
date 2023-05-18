@@ -31,6 +31,10 @@ public class UserButton extends VBox
     private Label userIPLbl;
     @FXML
     private Label userStateLbl;
+    @FXML
+    private VBox lastOnlineDateVB;
+    @FXML
+    private Label lastOnlineDateLbl;
     public UserButton(MainServerAppController app,ClientUser usr)
     {
         FXMLLoader loader=new FXMLLoader(getClass().getResource("UserButton.fxml"));
@@ -81,11 +85,17 @@ public class UserButton extends VBox
         {
             userStateLbl.setText("online");
             userStateLbl.setTextFill(Paint.valueOf("#3adf6e"));
+            lastOnlineDateVB.setVisible(false);
         }
         else
         {
             userStateLbl.setText("offline");
             userStateLbl.setTextFill(Paint.valueOf("#de3c3c"));
+            lastOnlineDateVB.setVisible(true);
         }
+    }
+    public void setLastOnlineDate(String date)
+    {
+        lastOnlineDateLbl.setText(date);
     }
 }

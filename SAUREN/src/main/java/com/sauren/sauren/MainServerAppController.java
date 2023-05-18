@@ -120,6 +120,7 @@ public class MainServerAppController implements Initializable
                newBtn.setUserName(usr.getName());
                newBtn.setUserIp(usr.getIp());
                newBtn.setUserState(usr.userOnline());
+               newBtn.setLastOnlineDate(usr.getLastOnlineDate());
                clientsVB.getChildren().add(newBtn);
            }
        }
@@ -283,7 +284,8 @@ public class MainServerAppController implements Initializable
         }
     }
 
-    public static long getDelay() throws ParseException {
+    public static long getDelay() throws ParseException
+    {
         int delay=1000;
         return delay;
     }
@@ -295,19 +297,18 @@ public class MainServerAppController implements Initializable
         long diffMinutesAll = diffAll / (60 * 1000) % 60;
         long diffHoursAll = diffAll / (60 * 60 * 1000) % 24;
         long diffDaysAll = diffAll / (24 * 60 * 60 * 1000);
-
         return diffDaysAll+" days "+diffHoursAll+" hours "+diffMinutesAll+" min "+diffSecondsAll+" sec";
     }
-    public static String getTimeinProject(long timeInProject) throws ParseException {
-
+    public static String getTimeinProject(long timeInProject) throws ParseException
+    {
         long diffSecondsAll = timeInProject / 1000 % 60;
         long diffMinutesAll = timeInProject / (60 * 1000) % 60;
         long diffHoursAll = timeInProject / (60 * 60 * 1000) % 24;
         long diffDaysAll = timeInProject / (24 * 60 * 60 * 1000);
-
         return diffDaysAll+" days "+diffHoursAll+" hours "+diffMinutesAll+" min "+diffSecondsAll+" sec";
     }
-    public static int getFilesCount(String dirPath) {
+    public static int getFilesCount(String dirPath)
+    {
         int count = 0;
         File[] files = new File(dirPath).listFiles();
         if (files.length != 0&&files!=null)
@@ -326,9 +327,13 @@ public class MainServerAppController implements Initializable
 
     public void sendMessageToUser(ActionEvent actionEvent) //отправить сообщение клиенту
     {
-        String msg="$MSG";
-        msg+="Hoi";
-        currentUser.getChannel().writeAndFlush(msg);
-        System.out.println(">SEND MESSAGE TO USER "+currentUser.getName()+": "+msg);
+        if(currentUser.userOnline())
+        {
+            String msg="$MSG$";
+            msg+="Hoi";
+            currentUser.getChannel().writeAndFlush(msg);
+            System.out.println(">SEND MESSAGE TO USER " + currentUser.getName() + ": " + msg);
+        }
+        else System.out.println(">!CAN`T SEND MESSAGE, USER IS OFFLINE");
     }
 }

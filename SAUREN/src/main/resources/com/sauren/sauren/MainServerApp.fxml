@@ -146,7 +146,7 @@
                         <PieChart fx:id="pieChart" labelsVisible="false" legendSide="LEFT" prefHeight="356.0" prefWidth="522.0" title="Stats" />
                         <VBox alignment="CENTER" prefHeight="356.0" prefWidth="342.0">
                            <children>
-                              <Button fx:id="sendMsgBtn" onAction="#sendMessageToUser" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="42.0" prefWidth="200.0" style="-fx-background-radius: 25; -fx-border-radius: 25; -fx-background-color: #2271B3; -fx-border-width: 2; -fx-border-color: #66B3FF;" text="Send message" textFill="WHITE">
+                              <Button fx:id="sendMsgBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#sendMessageToUser" prefHeight="42.0" prefWidth="200.0" style="-fx-background-radius: 25; -fx-border-radius: 25; -fx-background-color: #2271B3; -fx-border-width: 2; -fx-border-color: #66B3FF;" text="Send message" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>

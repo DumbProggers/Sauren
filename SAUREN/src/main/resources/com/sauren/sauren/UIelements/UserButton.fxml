@@ -32,6 +32,12 @@
                         <Insets top="-10.0" />
                      </padding>
                   </Label>
+                  <VBox fx:id="lastOnlineDateVB" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="118.0" text="last online:" textFill="#616161" />
+                        <Label fx:id="lastOnlineDateLbl" prefHeight="18.0" prefWidth="115.0" text="Mon,dd hh:mm" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>
