@@ -46,20 +46,22 @@ public class ClientUser //класс клиента
     public String getLastScreenPath() {return lastScreenPath;}
     public String getLastOnlineDate()
     {
-        int index = lastScreenPath.indexOf('\\');
-        String date=lastScreenPath;
-        while(index!=-1)
-        {
-            date=date.substring(index+1);
-            index = date.indexOf('\\');
-           // System.out.println(date);
+        if(lastScreenPath!=null) {
+            int index = lastScreenPath.indexOf('\\');
+            String date = lastScreenPath;
+            while (index != -1) {
+                date = date.substring(index + 1);
+                index = date.indexOf('\\');
+                // System.out.println(date);
+            }
+            date = date.substring(4, 16);//убрать день недели и все что после минут
+            //May_18_22'00
+            date = date.replaceFirst("_", ",");//May, 18_22'00
+            date = date.replaceFirst("_", " ");//May, 18 22'00
+            date = date.replaceFirst("\'", ":");//May, 18 22:00
+            //
+            return date;
         }
-        date=date.substring(4,16);//убрать день недели и все что после минут
-        //May_18_22_00
-        date=date.replaceFirst("_",",");//May, 18_22_00
-        date=date.replaceFirst("_"," ");//May, 18 22_00
-        date=date.replaceFirst("_",":");//May, 18 22:00
-        //System.out.println(date);
-        return date;
+        return "now";
     }
 }

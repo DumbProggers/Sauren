@@ -105,6 +105,8 @@ public class MainServerAppController implements Initializable
         //Заполнение ChoiceBox значениями о статусе пользователя.
         choiceUserStatusCB.setItems(userStatusOL);
         choiceUserStatusCB.setValue(userStatusOL.get(0));
+
+        System.out.println(ServerHandler.getCurrentDate());
     }
 
 

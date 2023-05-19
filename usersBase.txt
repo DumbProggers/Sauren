@@ -1,4 +1,1 @@
-none:127.0.0.1:D:\saurenScreens\User\java\Work\Sun_May_14_21_25_53.png
-User:192.168.0.104:D:\saurenScreens\User\java\Work\Sun_May_14_21_46_11.png
-User:192.168.43.155:D:\saurenScreens\User\idea64\ProjectSauren_–_Networkjava_[Client]_Administrator\Thu_May_18_15_21_13.png
-User:192.168.0.105:D:\saurenScreens\User\chrome\Мессенджер__Google_Chrome\Fri_May_19_00_05_50.png
+bychk:192.168.0.103:D:\saurenScreens\Fri_May_19\bychk\java\SAUREN\Fri_May_19_17'10'46.png

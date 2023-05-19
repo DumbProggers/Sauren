@@ -13,13 +13,15 @@ import java.util.Objects;
 public class MainServerApp extends Application // Главный класс всего сервера
 {
     @Override
-    public void start(Stage stage) throws Exception
+    public void start(Stage stage)
     {
-        Parent root= FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainServerApp.fxml")));
-        Scene mainSc=new Scene( root);
-        stage.setScene(mainSc);
-        stage.setTitle("SAUREN");
-        stage.show();
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainServerApp.fxml")));
+            Scene mainSc = new Scene(root);
+            stage.setScene(mainSc);
+            stage.setTitle("SAUREN");
+            stage.show();
+        }catch(Exception ex){ex.printStackTrace();}
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.*;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Object>//класс обработчик (In) - работаем на вход данных
 {
+
     public static String file_dir = "D:\\saurenScreens\\";//основа пути к изображениям
     public static ArrayList<ClientUser> users=new ArrayList<>();//массив со всеми когда-либо подключенными пользователями
 
@@ -69,7 +70,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     protected void channelRead0(ChannelHandlerContext ctx, Object o) throws Exception//получение сообщения от клиента
     {
         String curIp=getIpFromCTX(ctx);
-        for(ClientUser currentUsr:users) {
+        for(ClientUser currentUsr:users)
+        {
             if(currentUsr.getIp().equals(curIp)) //если нашли отправителя
             {
                 String message;
@@ -98,16 +100,16 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
        int byteRead = o.getEndPos();
 
         String filename = getCurrentDate()+".png";
-        String path = file_dir + File.separator + sender.getLastFilePath() + File.separator + filename;
-        String pathToScreens = file_dir + File.separator + sender.getLastFilePath();
+        String pathToScreens = file_dir +getCurrentDate().substring(0,10)/*деньНедели_меяц_день*/+ File.separator + sender.getLastFilePath();
+        String fullPath = pathToScreens + File.separator + filename;
 
-        sender.setLastScreenPath(file_dir +sender.getLastFilePath() + File.separator + filename);
+        sender.setLastScreenPath(fullPath);
         File theDir = new File(pathToScreens);
         if (!theDir.exists()){
             theDir.mkdirs();
         }
 
-        File file = new File(path);
+        File file = new File(fullPath);
 
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
        int start = 0;
@@ -121,7 +123,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
         Date date = new Date();
         String dateNow = date.toString();
         dateNow = dateNow.replace(" ", "_");
-        String newDateNow = dateNow.replace(":", "_");
+        String newDateNow = dateNow.replace(":", "\'");
         newDateNow = removeLastNchars(newDateNow, 10);//last: 13 - minutes 10 - seconds
         return newDateNow;
     }
