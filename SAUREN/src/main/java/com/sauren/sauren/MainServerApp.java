@@ -13,7 +13,7 @@ import java.util.Objects;
 public class MainServerApp extends Application // Главный класс всего сервера
 {
     @Override
-    public void start(Stage stage)
+    public void start(Stage stage)//запуск графики
     {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainServerApp.fxml")));
@@ -25,7 +25,7 @@ public class MainServerApp extends Application // Главный класс вс
     }
 
     @Override
-    public void stop() throws Exception
+    public void stop() throws Exception//после закрытия окна
     {
         super.stop();
         System.exit(0);

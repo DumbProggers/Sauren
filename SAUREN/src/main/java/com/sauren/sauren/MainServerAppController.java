@@ -35,7 +35,7 @@ public class MainServerAppController implements Initializable
     public Label infoUserPieChart;
     @FXML
     private ChoiceBox<String> choiceUserStatusCB;
-    ObservableList<String> userStatusOL = FXCollections.observableArrayList("Online", "Offline", "All Users");
+    ObservableList<String> userStatusOL = FXCollections.observableArrayList("Online", "Offline", "All Users");//"фильтры" для левой панели
     Timeline getLastScreenT;//таймер для получения последнего полученного скриншота пользователя
     @FXML
     private TextField connectionInfoLbl;//ip:port
@@ -68,8 +68,8 @@ public class MainServerAppController implements Initializable
             Network mainNetwork=new Network();
             //запускаем сервер с нужными нам параметрами (infoConnection)
             new Thread(()->{     mainNetwork.Start();   }).start();
-            connectionInfoLbl.setText(Network.getServerIp()+":"+Integer.toString(Network.getPort()));//вывести ip и порт сервера
 
+            connectionInfoLbl.setText(Network.getServerIp()+":"+Integer.toString(Network.getPort()));//вывести ip и порт сервера
             ServerHandler.getUsersFromBase();//получить данные ранее подключенных пользователей
 
             new Thread(()->{//прохожусь по всем онлайн пользователям
@@ -106,8 +106,6 @@ public class MainServerAppController implements Initializable
         //Заполнение ChoiceBox значениями о статусе пользователя.
         choiceUserStatusCB.setItems(userStatusOL);
         choiceUserStatusCB.setValue(userStatusOL.get(0));
-
-        System.out.println(ServerHandler.getCurrentDate());
     }
 
 
@@ -172,16 +170,13 @@ public class MainServerAppController implements Initializable
     public void pieChart(ClientUser user) throws ParseException //вывод круговой диаграммы(обновление)
     {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-
+        //V |сохраняю путь к папке пользователя за текущий день| V
         File file = new File(ServerHandler.file_dir+File.separator+ServerHandler.getCurrentDate().substring(0,10)+File.separator+user.getName());
-        File[] dirs = file.listFiles(new FileFilter() {
+        File[] dirs = file.listFiles(new FileFilter()
+        {
             @Override
-            public boolean accept(File pathname) {
-                if (pathname.isDirectory()){
-                    return true;
-                }
-                return false;
-            }
+                public boolean accept(File pathname){   return pathname.isDirectory();  }
+
         });
         String info="";
         addDatainPieChart(dirs,pieChartData,info);
@@ -190,12 +185,9 @@ public class MainServerAppController implements Initializable
     }
     public static void addDatainPieChart(File[] dirs,ObservableList<PieChart.Data> pieChartData,String info) throws ParseException {
         int count = 0;
-        if (dirs == null)
+        if (dirs == null)   System.out.println(">|PieChart| User NOT SELECTED");
+        else
         {
-            System.out.println("User NOT SELECTED");
-            //userInfo.setText("User not selected");
-        }
-        else {
             for (File program: dirs){
                 //pieChartData.add(count++,new PieChart.Data(program.getName(),(getFilesCount(program.getAbsolutePath()))*(int)getDelay()));
                 pieChartData.add(count++,new PieChart.Data(program.getName(),(getFilesCount(program.getAbsolutePath()))*getDelay()));

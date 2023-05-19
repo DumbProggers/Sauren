@@ -19,11 +19,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
         return ip;
     }
     @Override
-    public void channelActive(ChannelHandlerContext ctx)
+    public void channelActive(ChannelHandlerContext ctx)//пользователь подключился
     {
         String curIP=getIpFromCTX(ctx);
-        System.out.println(curIP);
-
         for(ClientUser currentUsr:users)
         {
             if(currentUsr.getIp().equals(curIP) && currentUsr.userOnline())  return;//если такой пользователь существует и он подключен
@@ -31,10 +29,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
             {
                 currentUsr.setOnline(true);
                 currentUsr.setChannel(ctx.channel());
-
-
                 System.out.println("> User "+currentUsr.getName() + " now Online!!!");
-                saveUsersToUsersBase();//добавить пользователя в файл
+                saveUsersToUsersBase();//обновить базу с пользователями
                 return;
             }
         }
@@ -45,7 +41,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
         newUsr.setOnline(true);
         System.out.println("> New User in System!!! "+newUsr.getIp());
         users.add(newUsr);
-        saveUsersToUsersBase();
+        saveUsersToUsersBase();//обновить базу с пользователями
     }
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx)//пользователь отключился
@@ -61,7 +57,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                 return;
             }
         }
-        System.out.println(">>>Disconnection error??? (ServerHandler - handlerRemoved");
+        System.out.println(">>>Disconnection error??? (ServerHandler - handlerRemoved)");
     }
 
     @Override
@@ -80,7 +76,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                 {
                     message = o.toString();
                     //получаем текущее приложение пользователя.
-
                     int index = message.indexOf("\\");
                     currentUsr.setName(message.substring(0, index));
                     currentUsr.setLastFilePath(message);
@@ -91,12 +86,14 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                 }
                 if (o instanceof Integer) //если пришла задержка
                 {
-                    currentUsr.setScreensDelay((int)o);
+                    ClientUser.setScreensDelay((int)o);
                 }
+                break;
             }
         }
     }
-    private static String getApp(String message){
+    private static String getApp(String message)
+    {
         int index = message.indexOf("\\");
         int indexLast = message.lastIndexOf("\\");
         String app = message.substring(index+1,indexLast);
@@ -139,7 +136,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     public static String removeLastNchars(String str, int n) {
         return str.substring(0, str.length() - n);
     }
-
 
     public static void saveUsersToUsersBase()
     {
