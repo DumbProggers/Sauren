@@ -13,6 +13,7 @@ public class ClientUser //класс клиента
     private Channel userChannel;
     private String lastFilePath;//путь для сохранения следующего полученного файла
     private String lastScreenPath;//путь последнего полученного скриншота
+    private String currApp;
 
     public ClientUser()
     {
@@ -39,6 +40,8 @@ public class ClientUser //класс клиента
     public void setLastScreenPath(String path)    {lastScreenPath=path;}
     public String getName() {return name;}
     public String getIp()   {return ip;}
+
+
     public int getScreensDelay()    {return screenDealy;}
     public boolean userOnline() {return isOnline;}
     public Channel getChannel()    {return userChannel;}

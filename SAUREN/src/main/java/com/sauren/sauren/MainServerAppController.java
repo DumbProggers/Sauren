@@ -27,6 +27,7 @@ import java.net.*;
 import java.text.ParseException;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.awt.Desktop;
 
 public class MainServerAppController implements Initializable
 {
@@ -172,7 +173,7 @@ public class MainServerAppController implements Initializable
     {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
-        File file = new File(ServerHandler.file_dir+File.separator+user.getName());
+        File file = new File(ServerHandler.file_dir+File.separator+ServerHandler.getCurrentDate().substring(0,10)+File.separator+user.getName());
         File[] dirs = file.listFiles(new FileFilter() {
             @Override
             public boolean accept(File pathname) {
@@ -184,12 +185,8 @@ public class MainServerAppController implements Initializable
         });
         String info="";
         addDatainPieChart(dirs,pieChartData,info);
-        //pieChart.setTitle(user.getName());
         pieChart.setData(pieChartData);
-
         drawPieChar(pieChart,pieChartData,dirs,infoUserPieChart,user.getName());
-        //System.out.println("PRIECHARt");
-        //System.out.println(user.getLastScreenPath());
     }
     public static void addDatainPieChart(File[] dirs,ObservableList<PieChart.Data> pieChartData,String info) throws ParseException {
         int count = 0;
@@ -200,13 +197,11 @@ public class MainServerAppController implements Initializable
         }
         else {
             for (File program: dirs){
-                System.out.println("APPLICATION|\t"+program.getName()+"\n\t|TOTAL TIME|\t"+getTimeinExe(program.getAbsolutePath()));
                 //pieChartData.add(count++,new PieChart.Data(program.getName(),(getFilesCount(program.getAbsolutePath()))*(int)getDelay()));
                 pieChartData.add(count++,new PieChart.Data(program.getName(),(getFilesCount(program.getAbsolutePath()))*getDelay()));
                 info+="APPLICATION|\t"+program.getName()+"\t|TOTAL TIME|\t"+getTimeinExe(program.getAbsolutePath())+"\n\n";
                 for (File project: Objects.requireNonNull(new File(program.getAbsolutePath()).listFiles())){
                     long msInProject = (getFilesCount(project.getAbsolutePath())*getDelay());
-                    System.out.println("\tWINDOW|\t"+project.getName()+"\n\t\t|TIME|\t"+getTimeinProject(msInProject));
                     info+="\tWINDOW|\t"+project.getName()+"\n\t\t|TIME|\t"+getTimeinProject(msInProject)+"\n";
                 }
             }
@@ -272,10 +267,10 @@ public class MainServerAppController implements Initializable
                         data2.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent e) {
-                                String pathToScreen = ServerHandler.file_dir+userNameSelected+"\\"+data.getName()+"\\"+data2.getName();
-
+                                String pathToScreen = ServerHandler.file_dir+File.separator+ServerHandler.getCurrentDate().substring(0,10)+File.separator+currentUser.getName()+"\\"+data.getName()+"\\"+data2.getName();
                                 try {
-                                    Runtime.getRuntime().exec("explorer "+pathToScreen);
+                                    Desktop.getDesktop().open(new File(pathToScreen));
+                                    //Runtime.getRuntime().exec("explorer "+pathToScreen);
                                 } catch (IOException ex) {
                                     throw new RuntimeException(ex);
                                 }

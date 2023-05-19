@@ -32,6 +32,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                 currentUsr.setOnline(true);
                 currentUsr.setChannel(ctx.channel());
 
+
                 System.out.println("> User "+currentUsr.getName() + " now Online!!!");
                 saveUsersToUsersBase();//добавить пользователя в файл
                 return;
@@ -78,6 +79,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                 if (o instanceof String)//получаем "user\ПРИЛОЖЕНИЕ\ПРОЕКТ"
                 {
                     message = o.toString();
+                    //получаем текущее приложение пользователя.
+
                     int index = message.indexOf("\\");
                     currentUsr.setName(message.substring(0, index));
                     currentUsr.setLastFilePath(message);
@@ -92,6 +95,12 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                 }
             }
         }
+    }
+    private static String getApp(String message){
+        int index = message.indexOf("\\");
+        int indexLast = message.lastIndexOf("\\");
+        String app = message.substring(index+1,indexLast);
+        return app;
     }
 
    public void saveFile(FileUploadFile o,ClientUser sender) throws IOException
