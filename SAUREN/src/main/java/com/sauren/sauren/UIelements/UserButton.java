@@ -2,7 +2,6 @@ package com.sauren.sauren.UIelements;
 
 import com.sauren.sauren.ClientUser;
 import com.sauren.sauren.MainServerAppController;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -51,7 +50,6 @@ public class UserButton extends VBox
     public void clicked(MouseEvent me) throws ParseException//когда нажали на "кнопку" пользователя
     {
          mainApp.showUserInfo(user);
-
     }
 
 

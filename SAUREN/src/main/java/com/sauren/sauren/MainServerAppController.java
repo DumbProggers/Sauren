@@ -65,11 +65,11 @@ public class MainServerAppController implements Initializable
         userInfoVB.setVisible(false);//прячу панель с информацией о выбранном пользователе
         try
         {
-            Network mainNetwork=new Network();
+            Network mainNetwork=new Network();//чтобы сработал конструктор
             //запускаем сервер с нужными нам параметрами (infoConnection)
-            new Thread(()->{     mainNetwork.Start();   }).start();
+            new Thread(Network::Start).start();
 
-            connectionInfoLbl.setText(Network.getServerIp()+":"+Integer.toString(Network.getPort()));//вывести ip и порт сервера
+            connectionInfoLbl.setText(Network.getServerIp()+":"+Network.getPort());//вывести ip и порт сервера
             ServerHandler.getUsersFromBase();//получить данные ранее подключенных пользователей
 
             new Thread(()->{//прохожусь по всем онлайн пользователям
@@ -147,7 +147,7 @@ public class MainServerAppController implements Initializable
         curUserNameLbl.setText(usr.getName());//установка имени
         curUserIPLbl.setText(usr.getIp());//установка ip пользователя
         if(getLastScreenT!=null)    getLastScreenT.stop();
-        Timeline timeline = new Timeline (//таймер для периодичекого обновления последнего скриншота
+        getLastScreenT= new Timeline (//таймер для периодичекого обновления последнего скриншота
                 new KeyFrame(
                         Duration.millis(500), //0,5  сек
                         ae ->
@@ -167,17 +167,16 @@ public class MainServerAppController implements Initializable
                             }
                         })
         );
-        getLastScreenT=timeline;
         getLastScreenT.setCycleCount(Integer.MAX_VALUE); //Ограничим число повторений
         getLastScreenT.play(); //Запускаем
 
-        pieChart(usr);
+        pieChart();
     }
-    public void pieChart(ClientUser user) throws ParseException //вывод круговой диаграммы(обновление)
+    public void pieChart() throws ParseException //вывод круговой диаграммы(обновление)
     {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         //V |сохраняю путь к папке пользователя за текущий день| V
-        File file = new File(ServerHandler.file_dir+File.separator+ServerHandler.getCurrentDate().substring(0,10)+File.separator+user.getName());
+        File file = new File(ServerHandler.file_dir+File.separator+ServerHandler.getCurrentDate().substring(0,10)+File.separator+currentUser.getName());
         File[] dirs = file.listFiles(new FileFilter()
         {
             @Override
@@ -187,7 +186,7 @@ public class MainServerAppController implements Initializable
         String info="";
         addDatainPieChart(dirs,pieChartData,info);
         pieChart.setData(pieChartData);
-        drawPieChar(pieChart,pieChartData,dirs,infoUserPieChart,user.getName());
+        drawPieChar(pieChart,pieChartData,dirs,infoUserPieChart);
     }
     public static void addDatainPieChart(File[] dirs,ObservableList<PieChart.Data> pieChartData,String info) throws ParseException {
         int count = 0;
@@ -223,7 +222,7 @@ public class MainServerAppController implements Initializable
         }
     }
 
-    public static void drawPieChar(PieChart pieChart,ObservableList<PieChart.Data> pieChartData,File[] dirs,Label userInfo,String userNameSelected){
+    public static void drawPieChar(PieChart pieChart,ObservableList<PieChart.Data> pieChartData,File[] dirs,Label userInfo){
         addHandlerPieChar(pieChart,userInfo);
         for (final PieChart.Data data : pieChart.getData()) {
             data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -262,7 +261,8 @@ public class MainServerAppController implements Initializable
                         });
                     }
                     for (final PieChart.Data data2 : pieChart.getData()) {
-                        data2.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                        data2.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+                        {
                             @Override
                             public void handle(MouseEvent e) {
                                 String pathToScreen = ServerHandler.file_dir+File.separator+ServerHandler.getCurrentDate().substring(0,10)+File.separator+currentUser.getName()+"\\"+data.getName()+"\\"+data2.getName();
@@ -283,8 +283,7 @@ public class MainServerAppController implements Initializable
 
     public static long getDelay() throws ParseException
     {
-        int delay=1000;
-        return delay;
+        return ClientUser.getScreensDelay();
     }
     public static String getTimeinExe(String pathAbs) throws ParseException {
         int filesCount = getFilesCount(pathAbs);
@@ -308,14 +307,12 @@ public class MainServerAppController implements Initializable
     {
         int count = 0;
         File[] files = new File(dirPath).listFiles();
-        if (files.length != 0&&files!=null)
-            for (int i = 0; i < files.length; i++) {
-                File file = files[i];
+        if (files!=null)
+            for (File file : files)
+            {
                 if (file.isDirectory()) {
-                    count+=getFilesCount(file.getAbsolutePath());
-                }
-                else
-                {
+                    count += getFilesCount(file.getAbsolutePath());
+                } else {
                     count++;
                 }
             }

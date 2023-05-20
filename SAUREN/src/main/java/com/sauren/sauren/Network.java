@@ -31,8 +31,7 @@ public class Network
     public static String getServerIp() {return serverIP;}
     public static void Start()
     {
-
-        EventLoopGroup bossGrop = new NioEventLoopGroup(1);//обработка запросов в паралельных потоках. Пул поток
+        EventLoopGroup bossGrop = new NioEventLoopGroup(1);//обработка запросов в параллельных потоках. Пул поток
         EventLoopGroup workerGroup = new NioEventLoopGroup();//для работы
         try{
             ServerBootstrap b = new ServerBootstrap();//Преднастройка сервера
@@ -42,7 +41,8 @@ public class Network
                     //.option(ChannelOption.SO_BACKLOG,Integer.MAX_VALUE)
                     .childHandler(new ChannelInitializer<>() {
                         @Override
-                        protected void initChannel(Channel channel) throws Exception {
+                        protected void initChannel(Channel channel) throws Exception
+                        {
                             channel.pipeline().addLast(
                                     new ObjectEncoder(),
                                     new ObjectDecoder(ClassResolvers.weakCachingConcurrentResolver(FileUploadFile.class.getClassLoader())), new ServerHandler());

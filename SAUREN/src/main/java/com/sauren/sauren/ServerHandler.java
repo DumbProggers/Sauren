@@ -12,7 +12,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     public static String file_dir = "D:\\saurenScreens\\";//основа пути к изображениям
     public static ArrayList<ClientUser> users=new ArrayList<>();//массив со всеми когда-либо подключенными пользователями
 
-    private String getIpFromCTX(ChannelHandlerContext ctx)
+    private static String getIpFromCTX(ChannelHandlerContext ctx)
     {
         String ip=ctx.channel().remoteAddress().toString();
         ip=ip.substring(1,ip.indexOf(":"));//убираем лишнее
@@ -96,18 +96,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
             }
         }
     }
-    private static String getApp(String message)
-    {
-        int index = message.indexOf("\\");
-        int indexLast = message.lastIndexOf("\\");
-        String app = message.substring(index+1,indexLast);
-        return app;
-    }
 
-   public void saveFile(FileUploadFile o,ClientUser sender) throws IOException
+   public static void saveFile(FileUploadFile o,ClientUser sender) throws IOException
    {
         byte[] bytes = o.getBytes();
-       int byteRead = o.getEndPos();
 
         String filename = getCurrentDate()+".png";
         String pathToScreens = file_dir +getCurrentDate().substring(0,10)/*деньНедели_меяц_день*/+ File.separator + sender.getLastFilePath();
@@ -115,9 +107,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
 
         sender.setLastScreenPath(fullPath);
         File theDir = new File(pathToScreens);
-        if (!theDir.exists()){
-            theDir.mkdirs();
-        }
+        if (!theDir.exists())    theDir.mkdirs();
+
 
         File file = new File(fullPath);
 
@@ -133,7 +124,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
         Date date = new Date();
         String dateNow = date.toString();
         dateNow = dateNow.replace(" ", "_");
-        String newDateNow = dateNow.replace(":", "\'");
+        String newDateNow = dateNow.replace(":", "'");
         newDateNow = removeLastNchars(newDateNow, 10);//last: 13 - minutes 10 - seconds
         return newDateNow;
     }
@@ -165,10 +156,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
         {
             // чтение посимвольно
             int c;
-            while((c=br.read())!=-1){
-                //System.out.print((char)c);
-                dt+=(char)c;
-            }
+            while((c=br.read())!=-1){   dt+=(char)c;    }
         }
         catch(IOException ex){
 
