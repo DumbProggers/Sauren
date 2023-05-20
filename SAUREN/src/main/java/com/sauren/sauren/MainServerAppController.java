@@ -56,12 +56,12 @@ public class MainServerAppController implements Initializable
     @FXML
     private TextField msgToUserTF;
     private static ClientUser currentUser;//выбранный пользователь
+    private static boolean needToUpdateUsersPanel=false;//нужно ли обновить левую панель со всеми пользователями(true, когда подключился, отключился, или обновил "фильтр")
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         pieChart.setStyle("-fx-text-fill: #191970;");//для белого цвета текста
         connectionInfoLbl.setStyle("-fx-text-inner-color: white;" + "-fx-background-color:  #0067a5");//для белого цвета текста
-
         userInfoVB.setVisible(false);//прячу панель с информацией о выбранном пользователе
         try
         {
@@ -111,26 +111,32 @@ public class MainServerAppController implements Initializable
 
     public void updateClientsPannel()//заново вывести кнопки пользователей в левую панель
     {
-        clientsVB.getChildren().clear();
-        boolean onlineUsersFilter=choiceUserStatusCB.getValue().equals(userStatusOL.get(0));
-        boolean offlineUsersFilter=choiceUserStatusCB.getValue().equals(userStatusOL.get(1));
-        boolean allUsersFilter=choiceUserStatusCB.getValue().equals(userStatusOL.get(2));
-       for(ClientUser usr:ServerHandler.users)
-       {
-           if((onlineUsersFilter&&usr.userOnline()) || (offlineUsersFilter && !usr.userOnline()) || allUsersFilter)
-           {//создаем кнопку
-               UserButton newBtn=new UserButton(this,usr);
-               newBtn.setUserName(usr.getName());
-               newBtn.setUserIp(usr.getIp());
-               newBtn.setUserState(usr.userOnline());
-               newBtn.setLastOnlineDate(usr.getLastOnlineDate());
-               clientsVB.getChildren().add(newBtn);
-           }
-       }
+        if(needToUpdateUsersPanel)
+        {
+            System.out.println(">UPDATE USERS PANEL(left)");
+            clientsVB.getChildren().clear();
+            boolean onlineUsersFilter = choiceUserStatusCB.getValue().equals(userStatusOL.get(0));
+            boolean offlineUsersFilter = choiceUserStatusCB.getValue().equals(userStatusOL.get(1));
+            boolean allUsersFilter = choiceUserStatusCB.getValue().equals(userStatusOL.get(2));
+            for (ClientUser usr : ServerHandler.users)
+            {
+                if ((onlineUsersFilter && usr.userOnline()) || (offlineUsersFilter && !usr.userOnline()) || allUsersFilter)
+                {//создаем кнопку
+                    UserButton newBtn = new UserButton(this, usr);
+                    newBtn.setUserName(usr.getName());
+                    newBtn.setUserIp(usr.getIp());
+                    newBtn.setUserState(usr.userOnline());
+                    newBtn.setLastOnlineDate(usr.getLastOnlineDate());
+                    clientsVB.getChildren().add(newBtn);
+                }
+            }
+            needToUpdateUsersPanel=false;
+        }
     }
 
     public  void changeShowenUsersState(ActionEvent actionEvent)
     {
+        needToUpdateUsersPanel=true;
         updateClientsPannel();
     }
 
@@ -315,6 +321,8 @@ public class MainServerAppController implements Initializable
             }
         return count;
     }
+
+    public static void setNeedToUpdateUsersPanel(boolean need){ needToUpdateUsersPanel=need;}
 
     public void sendMessageToUser(ActionEvent actionEvent) //отправить сообщение клиенту
     {

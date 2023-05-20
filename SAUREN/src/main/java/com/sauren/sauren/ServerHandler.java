@@ -31,6 +31,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                 currentUsr.setChannel(ctx.channel());
                 System.out.println("> User "+currentUsr.getName() + " now Online!!!");
                 saveUsersToUsersBase();//обновить базу с пользователями
+                MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
                 return;
             }
         }
@@ -42,6 +43,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
         System.out.println("> New User in System!!! "+newUsr.getIp());
         users.add(newUsr);
         saveUsersToUsersBase();//обновить базу с пользователями
+        MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
     }
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx)//пользователь отключился
@@ -52,8 +54,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
             if(currentUsr.getIp().equals(curIp))
             {
                 currentUsr.setOnline(false);
+                System.out.println("fff");
                 System.out.println("> User "+currentUsr.getName()+" disconnected!");
                 currentUsr.getChannel().close();
+                MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
                 return;
             }
         }
