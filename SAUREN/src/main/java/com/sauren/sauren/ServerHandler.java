@@ -8,10 +8,10 @@ import java.util.*;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Object>//класс обработчик (In) - работаем на вход данных
 {
-
-    public static String file_dir = "D:\\saurenScreens\\";//основа пути к изображениям
     public static ArrayList<ClientUser> users=new ArrayList<>();//массив со всеми когда-либо подключенными пользователями
 
+    public static Date currentDay;
+    public ServerHandler(){currentDay=new Date();}
     private static String getIpFromCTX(ChannelHandlerContext ctx)
     {
         String ip=ctx.channel().remoteAddress().toString();
@@ -81,8 +81,13 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                     message = o.toString();
                     //получаем текущее приложение пользователя.
                     int index = message.indexOf("\\");
-                    currentUsr.setName(message.substring(0, index));
-                    currentUsr.setLastFilePath(message);
+                    String newName=message.substring(0, index);
+                    if(!currentUsr.getName().equals(newName))//если нужно сменить имя, меняем, вызываем обновление панели
+                    {
+                        currentUsr.setName(newName);
+                        MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
+                    }
+                    currentUsr.getUserFolderInfo().setLastScreenFolder(message.substring(index+1));//сохраняем папку для скриншота
                 }
                 if (o instanceof FileUploadFile)
                 {
@@ -100,17 +105,20 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
    public static void saveFile(FileUploadFile o,ClientUser sender) throws IOException
    {
         byte[] bytes = o.getBytes();
-
         String filename = getCurrentDate()+".png";
-        String pathToScreens = file_dir +getCurrentDate().substring(0,10)/*деньНедели_меяц_день*/+ File.separator + sender.getLastFilePath();
-        String fullPath = pathToScreens + File.separator + filename;
+        sender.getUserFolderInfo().setLastScreenName(filename);
+        //сменить имя папки текущего дня, если он сменился
+       if(!currentDay.equals(new Date()))
+       {
+           currentDay=new Date();
+           sender.getUserFolderInfo().setLastOnlineDayFolderName(currentDay);
+       }
 
-        sender.setLastScreenPath(fullPath);
-        File theDir = new File(pathToScreens);
+        File theDir = new File(sender.getUserFolderInfo().getFullPathToLastScreenFolder());
         if (!theDir.exists())    theDir.mkdirs();
 
 
-        File file = new File(fullPath);
+        File file = new File(sender.getUserFolderInfo().getFullPathToLastScreen());
 
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
        int start = 0;
@@ -135,8 +143,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     public static void saveUsersToUsersBase()
     {
         String data="";
-        for(ClientUser usr:users)   {   data += usr.getName() + ":" + usr.getIp()+":"+usr.getLastScreenPath() + "\n";   }
-        //сохранил пользователя в формате "Имя:IP:ПутьКпоследнемуСкрину"
+        for(ClientUser usr:users)
+        {   data += usr.getName() + ":" + usr.getIp()+":"+usr.getUserFolderInfo().getLastOnlineDayFolderName() +":"+usr.getUserFolderInfo().getLastScreenName()+ "\n";   }
+        //сохранил пользователя в формате "Имя:IP:ИмяПапкиДняПоследнейАктивности:ИмяПоследнегоСкрина"
 
         try(FileWriter writer = new FileWriter("usersBase.txt", false))
         {
@@ -171,21 +180,30 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
         String data=readFile("usersBase.txt");
         while(data.length()>1)
         {
+            //имя
             int index=data.indexOf(":");
             String temp=data.substring(0,index);
             ClientUser usr=new ClientUser();
             usr.setName(temp);
             data=data.substring(index+1);
 
+            //ip
             index=data.indexOf(":");
             temp=data.substring(0,index);
             usr.setIp(temp);
             data= data.substring(index+1);
 
+            //имя путь к папке последнего скриншота
+            index=data.indexOf(":");
+            temp=data.substring(0,index);
+            usr.getUserFolderInfo().setLastOnlineDayFolderName(temp);
+            data= data.substring(index+1);
+
+            //имя последнего скриншота
             index=data.indexOf("\n");
             temp=data.substring(0,index);
-            usr.setLastScreenPath(temp);
-            data= data.substring(index+1);
+            usr.getUserFolderInfo().setLastScreenName(temp);
+            data= "";
 
             users.add(usr);
         }

@@ -3,6 +3,8 @@ package com.sauren.sauren;
 import io.netty.channel.Channel;
 import javafx.scene.image.Image;
 
+import java.util.Date;
+
 public class ClientUser //класс клиента
 {
     private String name;
@@ -11,51 +13,42 @@ public class ClientUser //класс клиента
     private Image icon;//иконка
     private boolean isOnline;
     private Channel userChannel;
-    private String lastFilePath;//путь для сохранения следующего полученного файла
-    private String lastScreenPath;//путь последнего полученного скриншот
+    UserFolderInfo userFolder;
 
     public ClientUser()
     {
-        this.name="none";
+        name="none";
         ip="none";
         screenDealy=1000;
         isOnline=false;
-    }
-    public ClientUser(Channel ch,String name,String ip)
-    {
-        userChannel=ch;
-        this.name=name;
-        this.ip=ip;
-        screenDealy=1000;
-        isOnline=false;
+        userFolder=new UserFolderInfo(name);
     }
 
-    public void setName(String name){this.name=name;}
+
+    public void setName(String name)
+    {
+        this.name=name;
+        userFolder.setUserName(name);
+    }
     public void setIp(String ip)    {this.ip=ip;}
     public static void setScreensDelay(int newDelay)   {screenDealy=newDelay;}
     public void setOnline(boolean online)    {isOnline=online;}
     public void setChannel(Channel ch)  {userChannel=ch;}
-    public void setLastFilePath(String path)    {lastFilePath=path;}
-    public void setLastScreenPath(String path)    {lastScreenPath=path;}
-    public String getName() {return name;}
-    public String getIp()   {return ip;}
+    //public void setLastScreenFolderPath(String path)    {lastScreenFolderPath=path;}
+    //public void setLastScreenName(String path)    {lastScreenName=path;}
 
 
     public static int getScreensDelay()    {return screenDealy;}
     public boolean userOnline() {return isOnline;}
     public Channel getChannel()    {return userChannel;}
-    public String getLastFilePath() {return lastFilePath;}
-    public String getLastScreenPath() {return lastScreenPath;}
+    public String getName() {return name;}
+    public String getIp()   {return ip;}
+    public UserFolderInfo getUserFolderInfo(){  return userFolder;}
     public String getLastOnlineDate()
     {
-        if(lastScreenPath!=null) {
-            int index = lastScreenPath.indexOf('\\');
-            String date = lastScreenPath;
-            while (index != -1) {
-                date = date.substring(index + 1);
-                index = date.indexOf('\\');
-                // System.out.println(date);
-            }
+        if(userFolder.getLastScreenName()!=null)
+        {
+            String date=userFolder.getLastScreenName();
             date = date.substring(4, 16);//убрать день недели и все что после минут
             //May_18_22'00
             date = date.replaceFirst("_", ",");//May, 18_22'00

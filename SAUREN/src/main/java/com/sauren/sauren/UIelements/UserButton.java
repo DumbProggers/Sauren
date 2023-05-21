@@ -96,4 +96,11 @@ public class UserButton extends VBox
     {
         lastOnlineDateLbl.setText(date);
     }
+    public void updateInfo()
+    {
+        setUserName(user.getName());
+        setUserIp(user.getIp());
+        setUserState(user.userOnline());
+        setLastOnlineDate(user.getLastOnlineDate());
+    }
 }

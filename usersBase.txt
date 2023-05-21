@@ -1,1 +1,1 @@
-bychk:192.168.0.103:D:\saurenScreens\Sat_May_20\bychk\java\Work\Sat_May_20_13'39'40.png
+bychk:192.168.43.86:Mon_May_22:Mon_May_22_00'38'17.png
