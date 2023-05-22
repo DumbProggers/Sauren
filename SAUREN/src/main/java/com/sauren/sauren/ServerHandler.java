@@ -10,8 +10,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
 {
     public static ArrayList<ClientUser> users=new ArrayList<>();//массив со всеми когда-либо подключенными пользователями
 
-    public static Date currentDay;
-    public ServerHandler(){currentDay=new Date();}
     private static String getIpFromCTX(ChannelHandlerContext ctx)
     {
         String ip=ctx.channel().remoteAddress().toString();
@@ -85,6 +83,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                     if(!currentUsr.getName().equals(newName))//если нужно сменить имя, меняем, вызываем обновление панели
                     {
                         currentUsr.setName(newName);
+                        saveUsersToUsersBase();//обновить базу с пользователями
                         MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
                     }
                     currentUsr.getUserFolderInfo().setLastScreenFolder(message.substring(index+1));//сохраняем папку для скриншота
@@ -105,14 +104,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
    public static void saveFile(FileUploadFile o,ClientUser sender) throws IOException
    {
         byte[] bytes = o.getBytes();
-        String filename = getCurrentDate()+".png";
-        sender.getUserFolderInfo().setLastScreenName(filename);
-        //сменить имя папки текущего дня, если он сменился
-       if(!currentDay.equals(new Date()))
-       {
-           currentDay=new Date();
-           sender.getUserFolderInfo().setLastOnlineDayFolderName(currentDay);
-       }
+        String curDay=getCurrentDate();
+        sender.getUserFolderInfo().setLastScreenName(curDay+".png");
+
+        sender.getUserFolderInfo().setLastOnlineDayFolderName(curDay.substring(0,10));
 
         File theDir = new File(sender.getUserFolderInfo().getFullPathToLastScreenFolder());
         if (!theDir.exists())    theDir.mkdirs();
