@@ -95,7 +95,6 @@ public class MainServerAppController implements Initializable
                             Duration.millis(1000), //1 секунда
                             ae ->
                             {
-                                ServerHandler.saveUsersToUsersBase();
                                 updateClientsPannel();
                             })
             );

@@ -139,8 +139,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     {
         String data="";
         for(ClientUser usr:users)
-        {   data += usr.getName() + ":" + usr.getIp()+":"+usr.getUserFolderInfo().getLastOnlineDayFolderName() +":"+usr.getUserFolderInfo().getLastScreenName()+ "\n";   }
-        //сохранил пользователя в формате "Имя:IP:ИмяПапкиДняПоследнейАктивности:ИмяПоследнегоСкрина"
+        {   data += usr.getName() + ":" + usr.getIp()+":"+usr.getUserFolderInfo().getLastOnlineDayFolderName()+":"+usr.getUserFolderInfo().getLastScreenFolder() +":"+usr.getUserFolderInfo().getLastScreenName()+ "\n";   }
+        //сохранил пользователя в формате "Имя:IP:ИмяПапкиДняПоследнейАктивности:ИмяПапкиПоследнегоСкрина:ИмяПоследнегоСкрина"
 
         try(FileWriter writer = new FileWriter("usersBase.txt", false))
         {
@@ -188,10 +188,16 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
             usr.setIp(temp);
             data= data.substring(index+1);
 
-            //имя путь к папке последнего скриншота
+            //имя папки дня последнего онлайна
             index=data.indexOf(":");
             temp=data.substring(0,index);
             usr.getUserFolderInfo().setLastOnlineDayFolderName(temp);
+            data= data.substring(index+1);
+
+            //папка с последнего приложения(с последним сриншотом)
+            index=data.indexOf(":");
+            temp=data.substring(0,index);
+            usr.getUserFolderInfo().setLastScreenFolder(temp);
             data= data.substring(index+1);
 
             //имя последнего скриншота

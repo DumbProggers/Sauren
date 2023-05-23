@@ -1,1 +1,1 @@
-bychk:192.168.43.86:Mon_May_22:Mon_May_22_00'45'51.png
+bychk:192.168.0.104:Tue_May_23:java\SAUREN:Tue_May_23_11'32'13.png

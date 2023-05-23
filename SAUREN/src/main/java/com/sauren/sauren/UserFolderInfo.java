@@ -31,6 +31,7 @@ public class UserFolderInfo
     public static void setBaseFolderPath(String path){  baseFolderPath=path;    }
 
     public String getLastScreenName(){     return lastScreenName;  }
+    public String getLastScreenFolder(){     return lastScreenFolder;  }
     public String getLastOnlineDayFolderName(){ return lastOnlineDayFolderName;}
     public static String getBaseFolderPath(){   return baseFolderPath;  }
     public String getFullPathToLastScreenFolder()
