@@ -23,7 +23,8 @@ public class UserPieChart
     {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         //V |сохраняю путь к папке пользователя за текущий день| V
-        File file = new File(currentUser.getUserFolderInfo().getFullPathToUserFolderByDay(new Date()));
+        File file = new File(currentUser.getUserFolderInfo().getFullPathToUserFolderByDay(currentUser.getUserFolderInfo().getLastOnlineDayFolderName()));
+            System.out.println(">||"+currentUser.getUserFolderInfo().getFullPathToUserFolderByDay(   currentUser.getUserFolderInfo().getLastOnlineDayFolderName()   ));
         File[] dirs = file.listFiles(new FileFilter()
         {
             @Override

@@ -42,4 +42,6 @@ public class UserFolderInfo
 
     public String getFullPathToUserFolderByDay(Date day)
     {return baseFolderPath+"\\"+getDayFolderName(day)+"\\"+userName;}
+    public String getFullPathToUserFolderByDay(String dayFolderName)
+    {return baseFolderPath+"\\"+dayFolderName+"\\"+userName;}
 }
