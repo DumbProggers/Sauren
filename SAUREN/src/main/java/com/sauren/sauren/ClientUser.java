@@ -13,7 +13,7 @@ public class ClientUser //класс клиента
     private Image icon;//иконка
     private boolean isOnline;
     private Channel userChannel;
-    UserFolderInfo userFolder;
+    public final UserFolderInfo userFolder;
 
     public ClientUser()
     {
@@ -21,16 +21,20 @@ public class ClientUser //класс клиента
         ip="none";
         screenDealy=1000;
         isOnline=false;
-        userFolder=new UserFolderInfo(name);
+        userFolder=new UserFolderInfo(name+"_"+ip);
     }
 
 
     public void setName(String name)
     {
         this.name=name;
-        userFolder.setUserName(name);
+        userFolder.setUserFolder(name+"_"+ip);
     }
-    public void setIp(String ip)    {this.ip=ip;}
+    public void setIp(String ip)
+    {
+        this.ip=ip;
+        userFolder.setUserFolder(name+"_"+ip);
+    }
     public static void setScreensDelay(int newDelay)   {screenDealy=newDelay;}
     public void setOnline(boolean online)    {isOnline=online;}
     public void setChannel(Channel ch)  {userChannel=ch;}
@@ -43,7 +47,6 @@ public class ClientUser //класс клиента
     public Channel getChannel()    {return userChannel;}
     public String getName() {return name;}
     public String getIp()   {return ip;}
-    public UserFolderInfo getUserFolderInfo(){  return userFolder;}
     public String getLastOnlineDate()
     {
         if(userFolder.getLastScreenName()!=null)

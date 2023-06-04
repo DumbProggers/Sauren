@@ -4,6 +4,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Object>//класс обработчик (In) - работаем на вход данных
@@ -55,6 +57,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                 System.out.println("fff");
                 System.out.println("> User "+currentUsr.getName()+" disconnected!");
                 currentUsr.getChannel().close();
+                saveUsersToUsersBase();//обновить базу с пользователями
                 MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
                 return;
             }
@@ -86,7 +89,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                         saveUsersToUsersBase();//обновить базу с пользователями
                         MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
                     }
-                    currentUsr.getUserFolderInfo().setLastScreenFolder(message.substring(index+1));//сохраняем папку для скриншота
+                    currentUsr.userFolder.setLastScreenFolder(message.substring(index+1));//сохраняем папку для скриншота
                 }
                 if (o instanceof FileUploadFile)
                 {
@@ -105,15 +108,15 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
    {
         byte[] bytes = o.getBytes();
         String curDay=getCurrentDate();
-        sender.getUserFolderInfo().setLastScreenName(curDay+".png");
+        sender.userFolder.setLastScreenName(curDay+".png");
 
-        sender.getUserFolderInfo().setLastOnlineDayFolderName(curDay.substring(0,10));
+        sender.userFolder.setLastOnlineDayFolderName(curDay.substring(0,10));
 
-        File theDir = new File(sender.getUserFolderInfo().getFullPathToLastScreenFolder());
+        File theDir = new File(sender.userFolder.getFullPathToLastScreenFolder());
         if (!theDir.exists())    theDir.mkdirs();
 
 
-        File file = new File(sender.getUserFolderInfo().getFullPathToLastScreen());
+        File file = new File(sender.userFolder.getFullPathToLastScreen());
 
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
        int start = 0;
@@ -139,15 +142,13 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     {
         String data="";
         for(ClientUser usr:users)
-        {   data += usr.getName() + ":" + usr.getIp()+":"+usr.getUserFolderInfo().getLastOnlineDayFolderName()+":"+usr.getUserFolderInfo().getLastScreenFolder() +":"+usr.getUserFolderInfo().getLastScreenName()+ "\n";   }
+        {   data += usr.getName() + ":" + usr.getIp()+":"+usr.userFolder.getLastOnlineDayFolderName()+":"+usr.userFolder.getLastScreenFolder() +":"+usr.userFolder.getLastScreenName()+ "\n";   }
         //сохранил пользователя в формате "Имя:IP:ИмяПапкиДняПоследнейАктивности:ИмяПапкиПоследнегоСкрина:ИмяПоследнегоСкрина"
 
-        try(FileWriter writer = new FileWriter("usersBase.txt", false))
+        try
         {
-            // запись всей строки
-            writer.write(data);
-            // запись по символам
-            writer.flush();
+            Path file=Path.of("usersBase.txt");
+            Files.writeString(file,data);
         }
         catch(IOException ex){
             System.out.println(ex.getMessage());
@@ -155,24 +156,20 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     }
     public static String readFile(String file)
     {
-        String dt = "";
-        try(BufferedReader br = new BufferedReader (new FileReader(file)))
-        {
-            // чтение посимвольно
-            int c;
-            while((c=br.read())!=-1){   dt+=(char)c;    }
+        try {
+            Path data = Path.of(file);
+            return Files.readString(data);
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
-        catch(IOException ex){
-
-            System.out.println(ex.getMessage());
-        }
-        return dt;
+        return null;
     }
 
     public static void getUsersFromBase()//заполнить массив users пользователями, которые когда-либо подключались
     {
         users.clear();
         String data=readFile("usersBase.txt");
+
         while(data.length()>1)
         {
             //имя
@@ -191,20 +188,20 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
             //имя папки дня последнего онлайна
             index=data.indexOf(":");
             temp=data.substring(0,index);
-            usr.getUserFolderInfo().setLastOnlineDayFolderName(temp);
+            usr.userFolder.setLastOnlineDayFolderName(temp);
             data= data.substring(index+1);
 
             //папка с последнего приложения(с последним сриншотом)
             index=data.indexOf(":");
             temp=data.substring(0,index);
-            usr.getUserFolderInfo().setLastScreenFolder(temp);
+            usr.userFolder.setLastScreenFolder(temp);
             data= data.substring(index+1);
 
             //имя последнего скриншота
             index=data.indexOf("\n");
             temp=data.substring(0,index);
-            usr.getUserFolderInfo().setLastScreenName(temp);
-            data= "";
+            usr.userFolder.setLastScreenName(temp);
+            data= data.substring(index+1);
 
             users.add(usr);
         }

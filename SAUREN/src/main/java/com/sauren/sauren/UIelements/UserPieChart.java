@@ -23,8 +23,8 @@ public class UserPieChart
     {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         //V |сохраняю путь к папке пользователя за текущий день| V
-        File file = new File(currentUser.getUserFolderInfo().getFullPathToUserFolderByDay(currentUser.getUserFolderInfo().getLastOnlineDayFolderName()));
-            System.out.println(">||"+currentUser.getUserFolderInfo().getFullPathToUserFolderByDay(   currentUser.getUserFolderInfo().getLastOnlineDayFolderName()   ));
+        File file = new File(currentUser.userFolder.getFullPathToUserFolderByDay(currentUser.userFolder.getLastOnlineDayFolderName()));
+        System.out.println(">||"+currentUser.userFolder.getFullPathToUserFolderByDay(   currentUser.userFolder.getLastOnlineDayFolderName()   ));
         File[] dirs = file.listFiles(new FileFilter()
         {
             @Override
@@ -113,7 +113,7 @@ public class UserPieChart
                         {
                             @Override
                             public void handle(MouseEvent e) {
-                                String pathToScreen = currentUser.getUserFolderInfo().getFullPathToUserFolderByDay(new Date())+"\\"+data.getName()+"\\"+data2.getName();
+                                String pathToScreen = currentUser.userFolder.getFullPathToUserFolderByDay(new Date())+"\\"+data.getName()+"\\"+data2.getName();
                                 try {
                                     Desktop.getDesktop().open(new File(pathToScreen));
                                     //Runtime.getRuntime().exec("explorer "+pathToScreen);

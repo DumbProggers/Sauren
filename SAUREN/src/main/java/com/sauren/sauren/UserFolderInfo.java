@@ -2,17 +2,18 @@ package com.sauren.sauren;
 
 import java.util.Date;
 
+//Папка : base\день\имя_ip\приложение\проект\скрин
 public class UserFolderInfo
 {
     private static String baseFolderPath="D:\\saurenScreens";
     private String lastScreenName;
-    private String userName;
-    private String lastScreenFolder;
-    private String lastOnlineDayFolderName;
+    private String userFolder;//    имя_ip
+    private String lastScreenFolder;// приложение\проект
+    private String lastOnlineDayFolderName;// день
 
-    public UserFolderInfo(String userName)
+    public UserFolderInfo(String userFolder)
     {
-        this.userName=userName;
+        this.userFolder=userFolder;
         lastOnlineDayFolderName=getDayFolderName(new Date());
     }
     public static String getDayFolderName(Date day)
@@ -24,7 +25,7 @@ public class UserFolderInfo
     }
 
     public void setLastScreenName(String name){     lastScreenName=name;   }
-    public void setUserName(String name){   userName=name;}
+    public void setUserFolder(String userFolder){   this.userFolder=userFolder;}
     public void setLastOnlineDayFolderName(String day){ lastOnlineDayFolderName=day;}
     public void setLastOnlineDayFolderName(Date day){ lastOnlineDayFolderName=getDayFolderName(day);}
     public void setLastScreenFolder(String folder){ lastScreenFolder=folder;}
@@ -35,13 +36,13 @@ public class UserFolderInfo
     public String getLastOnlineDayFolderName(){ return lastOnlineDayFolderName;}
     public static String getBaseFolderPath(){   return baseFolderPath;  }
     public String getFullPathToLastScreenFolder()
-    {return baseFolderPath+"\\"+lastOnlineDayFolderName+"\\"+userName+"\\"+lastScreenFolder;}
+    {return baseFolderPath+"\\"+lastOnlineDayFolderName+"\\"+userFolder+"\\"+lastScreenFolder;}
 
     public String getFullPathToLastScreen()
-    {return baseFolderPath+"\\"+lastOnlineDayFolderName+"\\"+userName+"\\"+lastScreenFolder+"\\"+lastScreenName;}
+    {return baseFolderPath+"\\"+lastOnlineDayFolderName+"\\"+userFolder+"\\"+lastScreenFolder+"\\"+lastScreenName;}
 
     public String getFullPathToUserFolderByDay(Date day)
-    {return baseFolderPath+"\\"+getDayFolderName(day)+"\\"+userName;}
+    {return baseFolderPath+"\\"+getDayFolderName(day)+"\\"+userFolder;}
     public String getFullPathToUserFolderByDay(String dayFolderName)
-    {return baseFolderPath+"\\"+dayFolderName+"\\"+userName;}
+    {return baseFolderPath+"\\"+dayFolderName+"\\"+userFolder;}
 }

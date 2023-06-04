@@ -73,23 +73,6 @@ public class MainServerAppController implements Initializable
             connectionInfoLbl.setText(Network.getServerIp()+":"+Network.getPort());//вывести ip и порт сервера
             ServerHandler.getUsersFromBase();//получить данные ранее подключенных пользователей
 
-            new Thread(()->{//прохожусь по всем онлайн пользователям
-                while (true){
-                    try
-                    {
-                        Thread.sleep(2000);
-                        System.out.println("\n#Online users:");
-                        for(ClientUser usr:ServerHandler.users)//прохожусь по всем онлайн пользователям
-                        {
-                            if(usr.userOnline()) {
-                                System.out.println(usr.getName() + " : " + usr.getIp());
-                            }
-                        }
-                        System.out.println("###########################");
-                    } catch (InterruptedException e) { throw new RuntimeException(e); }
-                }
-            }).start();
-
             Timeline timeline = new Timeline (//таймер для периодичекого обновления базы и панели пользователей
                     new KeyFrame(
                             Duration.millis(1000), //1 секунда
@@ -152,8 +135,8 @@ public class MainServerAppController implements Initializable
                         Duration.millis(500), //0,5  сек
                         ae ->
                         {
-                            if(new File(    usr.getUserFolderInfo().getFullPathToLastScreen()   ).exists())//если файл с путем существует
-                                lastScreenImg.setImage(new Image(   usr.getUserFolderInfo().getFullPathToLastScreen()  ));//установка последнего полученного скриншота
+                            if(new File(    usr.userFolder.getFullPathToLastScreen()   ).exists())//если файл с путем существует
+                                lastScreenImg.setImage(new Image(   usr.userFolder.getFullPathToLastScreen()  ));//установка последнего полученного скриншота
 
                             if(usr.userOnline())//установка статуса (онлайн/оффлайн)
                             {
