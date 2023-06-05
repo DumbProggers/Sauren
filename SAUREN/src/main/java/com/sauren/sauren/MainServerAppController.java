@@ -11,16 +11,21 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -28,10 +33,13 @@ import java.net.*;
 import java.text.ParseException;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.awt.Desktop;
 
 public class MainServerAppController implements Initializable
 {
+    @FXML
+    private Button usersTabBtn;
+    @FXML
+    private ImageView usersTabIco;
     @FXML
     public Label infoUserPieChart;
     @FXML

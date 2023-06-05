@@ -27,12 +27,12 @@
                <children>
                   <HBox prefHeight="30.0" prefWidth="817.0">
                      <children>
-                        <Button alignment="CENTER" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" HBox.hgrow="ALWAYS">
+                        <Button fx:id="usersTabBtn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
                            <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="usersTabIco" fitHeight="20.0" fitWidth="53.0" nodeOrientation="INHERIT" preserveRatio="true">
                                  <image>
                                     <Image url="@UIelements/Files/fff.png" />
                                  </image>
