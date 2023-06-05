@@ -158,6 +158,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     {
         try {
             Path data = Path.of(file);
+            if(!Files.exists(data)) Files.createFile(data);
             return Files.readString(data);
         }catch(Exception ex){
             ex.printStackTrace();

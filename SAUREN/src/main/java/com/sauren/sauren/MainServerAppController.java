@@ -62,7 +62,7 @@ public class MainServerAppController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         pieChart.setStyle("-fx-text-fill: #191970;");//для белого цвета текста
-        connectionInfoLbl.setStyle("-fx-text-inner-color: white;" + "-fx-background-color:  #0067a5");//для белого цвета текста
+        connectionInfoLbl.setStyle("-fx-text-inner-color: white;" + "-fx-background-color:   #5BA4DC");//для белого цвета текста
         userInfoVB.setVisible(false);//прячу панель с информацией о выбранном пользователе
         try
         {
