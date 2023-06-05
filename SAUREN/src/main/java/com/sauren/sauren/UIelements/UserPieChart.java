@@ -113,7 +113,7 @@ public class UserPieChart
                         {
                             @Override
                             public void handle(MouseEvent e) {
-                                String pathToScreen = currentUser.userFolder.getFullPathToUserFolderByDay(new Date())+"\\"+data.getName()+"\\"+data2.getName();
+                                String pathToScreen = currentUser.userFolder.getFullPathToUserFolderByDay(currentUser.userFolder.getLastOnlineDayFolderName())+"\\"+data.getName()+"\\"+data2.getName();
                                 try {
                                     Desktop.getDesktop().open(new File(pathToScreen));
                                     //Runtime.getRuntime().exec("explorer "+pathToScreen);
