@@ -2,6 +2,7 @@ package com.sauren.sauren;
 
 import com.sauren.sauren.UIelements.UserButton;
 import com.sauren.sauren.UIelements.UserPieChart;
+import com.sauren.sauren.UIelements.mainTabs;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -36,10 +37,14 @@ import java.util.ResourceBundle;
 
 public class MainServerAppController implements Initializable
 {
+    private mainTabs currentTab=mainTabs.USERS;
+    private static ClientUser currentUser;//выбранный пользователь
+    private static boolean needToUpdateUsersPanel=false;//нужно ли обновить левую панель со всеми пользователями(true, когда подключился, отключился, или обновил "фильтр")
+    //------------------------------------------------//
     @FXML
-    private Button usersTabBtn;
+    private ImageView usersTabImg;
     @FXML
-    private ImageView usersTabIco;
+    private ImageView optionsTabImg;
     @FXML
     public Label infoUserPieChart;
     @FXML
@@ -64,16 +69,10 @@ public class MainServerAppController implements Initializable
     private PieChart pieChart;
     @FXML
     private TextField msgToUserTF;
-    private static ClientUser currentUser;//выбранный пользователь
-    private static boolean needToUpdateUsersPanel=false;//нужно ли обновить левую панель со всеми пользователями(true, когда подключился, отключился, или обновил "фильтр")
+    //------------------------------------------------//
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-
-        usersTabBtn.setStyle("-fx-graphic: 'C:\\Users\\Ilya\\IdeaProjects\\Sauren\\SAUREN\\src\\main\\resources\\com\\sauren\\sauren\\UIelements\\Files\\ico.png';");
-
-
-
         pieChart.setStyle("-fx-text-fill: #191970;");//для белого цвета текста
         connectionInfoLbl.setStyle("-fx-text-inner-color: white;" + "-fx-background-color:   #5BA4DC");//для белого цвета текста
         userInfoVB.setVisible(false);//прячу панель с информацией о выбранном пользователе
@@ -130,7 +129,7 @@ public class MainServerAppController implements Initializable
         }
     }
 
-    public  void changeShowenUsersState(ActionEvent actionEvent)
+    public  void changeShowenUsersState(ActionEvent actionEvent)//изменил статус пользователей, которых нужно отобразить
     {
         needToUpdateUsersPanel=true;
         updateClientsPannel();
@@ -184,5 +183,24 @@ public class MainServerAppController implements Initializable
             }
         }
         else System.out.println(">!CAN`T SEND MESSAGE, USER IS OFFLINE");
+    }
+
+    //------------------------------------------------//
+
+    public void openUsersTab(MouseEvent mouseEvent) //открыть главную вкладку управления пользователями
+    {
+        if(currentTab!=mainTabs.USERS) {    currentTab=mainTabs.USERS;  }
+        else
+        {
+
+        }
+    }
+    public void openOptionsTab(MouseEvent mouseEvent) //открыть главную вкладку настроек
+    {
+        if(currentTab!=mainTabs.OPTIONS) {    currentTab=mainTabs.OPTIONS;  }
+        else
+        {
+
+        }
     }
 }

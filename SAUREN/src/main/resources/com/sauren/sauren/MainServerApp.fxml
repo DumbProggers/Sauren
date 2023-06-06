@@ -25,16 +25,16 @@
          <children>
             <HBox prefHeight="31.0" prefWidth="1074.0" style="-fx-border-width: 1; -fx-border-color: #000;">
                <children>
-                  <HBox prefHeight="30.0" prefWidth="817.0">
+                  <HBox prefHeight="30.0" prefWidth="817.0" spacing="2.0" stylesheets="@styleTabButton.css">
                      <children>
-                        <Button fx:id="usersTabBtn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Button>
-                        <ImageView fx:id="usersTabIco" fitHeight="22.0" fitWidth="26.0" focusTraversable="true" nodeOrientation="INHERIT" smooth="false">
+                        <ImageView fx:id="usersTabImg" fitHeight="31.0" fitWidth="31.0" focusTraversable="true" nodeOrientation="INHERIT" onMouseClicked="#openUsersTab" pickOnBounds="true" preserveRatio="true" smooth="false" styleClass="imageview">
                            <image>
                               <Image url="@UIelements/Files/fff.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="optionsTabImg" fitHeight="31.0" fitWidth="31.0" focusTraversable="true" nodeOrientation="INHERIT" onMouseClicked="#openOptionsTab" pickOnBounds="true" preserveRatio="true" smooth="false" styleClass="imageview">
+                           <image>
+                              <Image url="@UIelements/Files/options.png" />
                            </image>
                         </ImageView>
                      </children>

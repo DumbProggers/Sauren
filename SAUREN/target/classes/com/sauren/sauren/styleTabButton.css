@@ -1,0 +1,8 @@
+.imageview{
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+.imageview:pressed{
+    -fx-scale-x: 0.9;
+    -fx-scale-y: 0.9;
+}
