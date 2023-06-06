@@ -49,7 +49,7 @@ public class ClientUser //класс клиента
     public String getIp()   {return ip;}
     public String getLastOnlineDate()
     {
-        if(userFolder.getLastScreenName()!=null)
+        if(userFolder.getLastScreenName()!=null && !userFolder.getLastScreenName().equals("null"))
         {
             String date=userFolder.getLastScreenName();
             date = date.substring(4, 16);//убрать день недели и все что после минут
