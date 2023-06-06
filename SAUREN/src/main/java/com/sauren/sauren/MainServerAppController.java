@@ -19,9 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
@@ -45,6 +43,10 @@ public class MainServerAppController implements Initializable
     private ImageView usersTabImg;
     @FXML
     private ImageView optionsTabImg;
+    @FXML
+    private HBox mainUsersTab;
+    @FXML
+    private VBox mainOptionsTab;
     @FXML
     public Label infoUserPieChart;
     @FXML
@@ -73,6 +75,7 @@ public class MainServerAppController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        mainUsersTab.setVisible(true);
         pieChart.setStyle("-fx-text-fill: #191970;");//для белого цвета текста
         connectionInfoLbl.setStyle("-fx-text-inner-color: white;" + "-fx-background-color:   #5BA4DC");//для белого цвета текста
         userInfoVB.setVisible(false);//прячу панель с информацией о выбранном пользователе
@@ -187,20 +190,30 @@ public class MainServerAppController implements Initializable
 
     //------------------------------------------------//
 
-    public void openUsersTab(MouseEvent mouseEvent) //открыть главную вкладку управления пользователями
+    public void changeMainTab(MouseEvent mouseEvent) //открыть главную вкладку управления пользователями
     {
-        if(currentTab!=mainTabs.USERS) {    currentTab=mainTabs.USERS;  }
-        else
-        {
+        mainTabs targetTab;
+        if(mouseEvent.getSource().equals(usersTabImg)) targetTab=mainTabs.USERS;
+        else if(mouseEvent.getSource().equals(optionsTabImg))  targetTab=mainTabs.OPTIONS;
+        else targetTab=mainTabs.USERS;
 
+        if(currentTab!=targetTab)
+        {
+            try {
+                getTabPane(currentTab).setVisible(false);
+                //getTabPane(currentTab).setDisable(true);
+                currentTab=targetTab;
+                getTabPane(currentTab).setVisible(true);
+               // getTabPane(currentTab).setDisable(false);
+            }catch (NullPointerException ex){ex.printStackTrace();}
         }
-    }
-    public void openOptionsTab(MouseEvent mouseEvent) //открыть главную вкладку настроек
-    {
-        if(currentTab!=mainTabs.OPTIONS) {    currentTab=mainTabs.OPTIONS;  }
-        else
-        {
 
+    }
+    private Pane getTabPane(mainTabs tab){
+        switch(tab){
+            case USERS:return mainUsersTab;
+            case OPTIONS: return mainOptionsTab;
+            default: return null;
         }
     }
 }

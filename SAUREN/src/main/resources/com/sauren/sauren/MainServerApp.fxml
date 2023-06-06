@@ -27,12 +27,12 @@
                <children>
                   <HBox prefHeight="30.0" prefWidth="817.0" spacing="2.0" stylesheets="@styleTabButton.css">
                      <children>
-                        <ImageView fx:id="usersTabImg" fitHeight="31.0" fitWidth="31.0" focusTraversable="true" nodeOrientation="INHERIT" onMouseClicked="#openUsersTab" pickOnBounds="true" preserveRatio="true" smooth="false" styleClass="imageview">
+                        <ImageView fx:id="usersTabImg" fitHeight="31.0" fitWidth="31.0" focusTraversable="true" nodeOrientation="INHERIT" onMouseClicked="#changeMainTab" pickOnBounds="true" preserveRatio="true" smooth="false" styleClass="imageview">
                            <image>
                               <Image url="@UIelements/Files/fff.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="optionsTabImg" fitHeight="31.0" fitWidth="31.0" focusTraversable="true" nodeOrientation="INHERIT" onMouseClicked="#openOptionsTab" pickOnBounds="true" preserveRatio="true" smooth="false" styleClass="imageview">
+                        <ImageView fx:id="optionsTabImg" fitHeight="31.0" fitWidth="31.0" focusTraversable="true" nodeOrientation="INHERIT" onMouseClicked="#changeMainTab" pickOnBounds="true" preserveRatio="true" smooth="false" styleClass="imageview">
                            <image>
                               <Image url="@UIelements/Files/options.png" />
                            </image>
@@ -46,7 +46,7 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="connectionInfoLbl" alignment="CENTER" prefHeight="31.0" prefWidth="186.0" promptText="ip:port" style="-fx-background-color: #5BA4DC;">
+                        <TextField fx:id="connectionInfoLbl" alignment="CENTER" editable="false" prefHeight="31.0" prefWidth="186.0" promptText="ip:port" style="-fx-background-color: #5BA4DC;">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -57,7 +57,7 @@
             </HBox>
             <StackPane prefHeight="602.0" prefWidth="1074.0">
                <children>
-                  <HBox prefHeight="718.0" prefWidth="1074.0">
+                  <HBox fx:id="mainUsersTab" prefHeight="718.0" prefWidth="1074.0" visible="false">
                      <children>
                         <VBox prefHeight="374.0" prefWidth="206.0" style="-fx-border-color: #000; -fx-background-color: #2271B3BD;">
                            <children>
@@ -196,6 +196,14 @@
                         </StackPane>
                      </children>
                   </HBox>
+                  <VBox fx:id="mainOptionsTab" prefHeight="200.0" prefWidth="100.0" visible="false">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="1090.0" text="OPTIONS" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="40.0" />
+                           </font>
+                        </Label>
+                     </children></VBox>
                </children>
             </StackPane>
          </children>
