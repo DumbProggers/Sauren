@@ -1,2 +1,1 @@
-bychk:192.168.0.104:Tue_May_23:java\SAUREN:Tue_May_23_11'32'13.png
-bychk:192.168.0.105:Sat_Jun_03:java\Work:Sat_Jun_03_16'37'07.png
+Jaja:192.168.0.104:Mon_Jun_05:java\SAUREN:Mon_Jun_05_15'59'3.png

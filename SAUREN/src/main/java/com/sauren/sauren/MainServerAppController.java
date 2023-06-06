@@ -69,6 +69,11 @@ public class MainServerAppController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+
+        usersTabBtn.setStyle("-fx-graphic: 'C:\\Users\\Ilya\\IdeaProjects\\Sauren\\SAUREN\\src\\main\\resources\\com\\sauren\\sauren\\UIelements\\Files\\ico.png';");
+
+
+
         pieChart.setStyle("-fx-text-fill: #191970;");//для белого цвета текста
         connectionInfoLbl.setStyle("-fx-text-inner-color: white;" + "-fx-background-color:   #5BA4DC");//для белого цвета текста
         userInfoVB.setVisible(false);//прячу панель с информацией о выбранном пользователе

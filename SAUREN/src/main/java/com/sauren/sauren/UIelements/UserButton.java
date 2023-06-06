@@ -11,6 +11,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -22,6 +23,8 @@ public class UserButton extends VBox
 {
     private ClientUser user;
     private static MainServerAppController mainApp;
+    @FXML
+    private HBox font;
     @FXML
     private ImageView userIcoImg;
     @FXML
@@ -52,7 +55,6 @@ public class UserButton extends VBox
          mainApp.showUserInfo(user);
     }
 
-
     public static void roundIcon(ImageView image)
     {
         Rectangle clip = new Rectangle(
@@ -65,13 +67,10 @@ public class UserButton extends VBox
         SnapshotParameters parameters = new SnapshotParameters();
         parameters.setFill(Color.TRANSPARENT);
         WritableImage imageCh = image.snapshot(parameters, null);
-
         // remove the rounding clip so that our effect can show through.
         image.setClip(null);
-
         // apply a shadow effect.
         image.setEffect(new DropShadow(5, Color.GRAY));
-
         // store the rounded image in the imageView.
         image.setImage(imageCh);
     }
