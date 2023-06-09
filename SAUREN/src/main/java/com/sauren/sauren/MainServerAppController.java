@@ -3,16 +3,15 @@ package com.sauren.sauren;
 import com.sauren.sauren.UIelements.UserButton;
 import com.sauren.sauren.UIelements.UserPieChart;
 import com.sauren.sauren.UIelements.mainTabs;
+import com.sauren.sauren.UIelements.userTabs;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,22 +19,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
 import java.net.*;
 import java.text.ParseException;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainServerAppController implements Initializable
 {
-    private mainTabs currentTab=mainTabs.USERS;
+    private mainTabs currentMainTab =mainTabs.USERS;
+    private userTabs currentUserTab=userTabs.BASE_INFO;//выбранная вкладка в выбранном пользователе
     private static ClientUser currentUser;//выбранный пользователь
     private static boolean needToUpdateUsersPanel=false;//нужно ли обновить левую панель со всеми пользователями(true, когда подключился, отключился, или обновил "фильтр")
     //------------------------------------------------//
@@ -47,6 +42,15 @@ public class MainServerAppController implements Initializable
     private HBox mainUsersTab;
     @FXML
     private VBox mainOptionsTab;
+    @FXML
+    private ImageView baseUserInfoTabImg;
+    @FXML
+    private ImageView userPlayerTabImg;
+    @FXML
+    private VBox baseUserInfoTab;
+    @FXML
+    private VBox userPlayerTab;
+
     @FXML
     public Label infoUserPieChart;
     @FXML
@@ -197,22 +201,43 @@ public class MainServerAppController implements Initializable
         else if(mouseEvent.getSource().equals(optionsTabImg))  targetTab=mainTabs.OPTIONS;
         else targetTab=mainTabs.USERS;
 
-        if(currentTab!=targetTab)
+        if(currentMainTab !=targetTab)
         {
             try {
-                getTabPane(currentTab).setVisible(false);
-                //getTabPane(currentTab).setDisable(true);
-                currentTab=targetTab;
-                getTabPane(currentTab).setVisible(true);
-               // getTabPane(currentTab).setDisable(false);
+                getMainTabPane(currentMainTab).setVisible(false);
+                currentMainTab =targetTab;
+                getMainTabPane(currentMainTab).setVisible(true);
             }catch (NullPointerException ex){ex.printStackTrace();}
         }
-
     }
-    private Pane getTabPane(mainTabs tab){
+    private Pane getMainTabPane(mainTabs tab){
         switch(tab){
             case USERS:return mainUsersTab;
             case OPTIONS: return mainOptionsTab;
+            default: return null;
+        }
+    }
+
+    public void changeUserTab(MouseEvent mouseEvent) //сменить вкладку в выбранном пользователе
+    {
+        userTabs targetTab;
+        if(mouseEvent.getSource().equals(baseUserInfoTabImg)) targetTab=userTabs.BASE_INFO;
+        else if(mouseEvent.getSource().equals(userPlayerTabImg))  targetTab=userTabs.PLAYER;
+        else targetTab=userTabs.BASE_INFO;
+
+        if(currentUserTab !=targetTab)
+        {
+            try {
+                getUserTabPane(currentUserTab).setVisible(false);
+                currentUserTab =targetTab;
+                getUserTabPane(currentUserTab).setVisible(true);
+            }catch (NullPointerException ex){ex.printStackTrace();}
+        }
+    }
+    private Pane getUserTabPane(userTabs tab){
+        switch(tab){
+            case BASE_INFO:return baseUserInfoTab;
+            case PLAYER: return userPlayerTab;
             default: return null;
         }
     }

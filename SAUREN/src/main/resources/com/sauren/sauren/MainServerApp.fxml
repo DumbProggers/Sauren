@@ -57,7 +57,7 @@
             </HBox>
             <StackPane prefHeight="602.0" prefWidth="1074.0">
                <children>
-                  <HBox fx:id="mainUsersTab" prefHeight="718.0" prefWidth="1074.0" visible="false">
+                  <HBox fx:id="mainUsersTab" prefHeight="718.0" prefWidth="1074.0">
                      <children>
                         <VBox prefHeight="374.0" prefWidth="206.0" style="-fx-border-color: #000; -fx-background-color: #2271B3BD;">
                            <children>
@@ -94,14 +94,14 @@
                                  <children>
                                     <HBox prefHeight="76.0" prefWidth="894.0" style="-fx-border-width: 1; -fx-border-color: #000; -fx-background-color: #5BA4DC;">
                                        <children>
-                                          <ImageView fx:id="curUserIcoImg" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="curUserIcoImg" fitHeight="75.0" fitWidth="75.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@UIelements/Files/fff.png" />
                                              </image>
                                           </ImageView>
-                                          <VBox prefHeight="70.0" prefWidth="199.0">
+                                          <VBox prefHeight="75.0" prefWidth="586.0">
                                              <children>
-                                                <Label fx:id="curUserNameLbl" prefHeight="20.0" prefWidth="199.0" text="None" textFill="WHITE">
+                                                <Label fx:id="curUserNameLbl" prefHeight="46.0" prefWidth="625.0" text="None" textFill="WHITE">
                                                    <font>
                                                       <Font name="System Bold" size="30.0" />
                                                    </font>
@@ -109,87 +109,115 @@
                                                       <Insets bottom="-15.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label fx:id="curUserStateLbl" alignment="TOP_LEFT" prefHeight="66.0" prefWidth="199.0" text="online" textFill="#6acc6f">
+                                                <Label fx:id="curUserStateLbl" alignment="TOP_LEFT" prefHeight="20.0" prefWidth="627.0" text="online" textFill="#6acc6f">
                                                    <font>
                                                       <Font name="System Bold Italic" size="14.0" />
                                                    </font>
                                                 </Label>
-                                             </children>
-                                          </VBox>
-                                          <HBox prefHeight="74.0" prefWidth="594.0">
-                                             <children>
-                                                <Label alignment="TOP_LEFT" prefHeight="70.0" prefWidth="62.0" text="IP: " textFill="WHITE">
-                                                   <font>
-                                                      <Font name="System Bold" size="25.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="curUserIPLbl" alignment="TOP_LEFT" prefHeight="70.0" prefWidth="176.0" text="0000" textFill="WHITE">
-                                                   <font>
-                                                      <Font name="System Bold Italic" size="22.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="296.0" prefWidth="566.0" style="-fx-border-color: #000; -fx-border-radius: 2; -fx-background-color: #5BA4DCC2;">
-                                       <children>
-                                          <ImageView fx:id="lastScreenImg" fitHeight="347.0" fitWidth="498.0" pickOnBounds="true" preserveRatio="true">
-                                             <HBox.margin>
-                                                <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
-                                             </HBox.margin>
-                                             <image>
-                                                <Image url="@UIelements/Files/screen.png" />
-                                             </image>
-                                             <viewport>
-                                                <Rectangle2D height="240.0" />
-                                             </viewport>
-                                             <effect>
-                                                <DropShadow height="16.32" radius="8.245000000000001" spread="0.42" width="18.66" />
-                                             </effect>
-                                          </ImageView>
-                                          <Label fx:id="infoUserPieChart" alignment="TOP_LEFT" prefHeight="300.0" prefWidth="348.0" style="-fx-border-color: #000; -fx-background-color: #2271B3;" text="App data:" textFill="WHITE">
-                                             <font>
-                                                <Font name="Gadugi Bold" size="15.0" />
-                                             </font>
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                             <padding>
-                                                <Insets left="5.0" />
-                                             </padding>
-                                          </Label>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets left="5.0" />
-                                       </VBox.margin>
-                                    </HBox>
-                                    <HBox prefHeight="357.0" prefWidth="665.0" style="-fx-border-color: #000; -fx-background-color: #5BA4DCC2;">
-                                       <children>
-                                          <PieChart fx:id="pieChart" labelsVisible="false" legendSide="LEFT" prefHeight="356.0" prefWidth="522.0" title="Stats" />
-                                          <VBox alignment="CENTER" prefHeight="356.0" prefWidth="342.0">
-                                             <children>
-                                                <VBox alignment="CENTER" fillWidth="false" prefHeight="70.0" prefWidth="200.0">
+                                                <HBox prefHeight="74.0" prefWidth="594.0">
                                                    <children>
-                                                      <Button fx:id="sendMsgBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#sendMessageToUser" prefHeight="42.0" prefWidth="200.0" style="-fx-background-color: #2271B3; -fx-border-width: 2; -fx-border-color: #8ab8ed;" text="Send message" textFill="WHITE">
+                                                      <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="30.0" text="IP: " textFill="#d7cdcd">
                                                          <font>
-                                                            <Font name="System Bold" size="16.0" />
+                                                            <Font name="System Bold" size="20.0" />
                                                          </font>
-                                                      </Button>
-                                                      <TextField fx:id="msgToUserTF" alignment="CENTER" onAction="#sendMessageToUser" prefHeight="28.0" prefWidth="200.0" promptText="enter message" style="-fx-border-color: #8ab8ed; -fx-border-width: 2;">
+                                                      </Label>
+                                                      <Label fx:id="curUserIPLbl" alignment="TOP_LEFT" prefHeight="30.0" prefWidth="554.0" text="0000" textFill="#d7cdcd">
                                                          <font>
-                                                            <Font size="14.0" />
+                                                            <Font name="System Bold Italic" size="20.0" />
                                                          </font>
-                                                      </TextField>
+                                                      </Label>
                                                    </children>
-                                                </VBox>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="81.0" prefWidth="212.0">
+                                             <children>
+                                                <HBox prefHeight="128.0" prefWidth="212.0" />
+                                                <HBox prefHeight="82.0" prefWidth="161.0" spacing="1.0" style="-fx-border-color: #000;" stylesheets="@styleTabButton.css">
+                                                   <children>
+                                                      <ImageView fx:id="baseUserInfoTabImg" fitHeight="30.0" fitWidth="30.0" focusTraversable="true" nodeOrientation="INHERIT" onMouseClicked="#changeUserTab" pickOnBounds="true" preserveRatio="true" smooth="false" styleClass="imageview">
+                                                         <image>
+                                                            <Image url="@UIelements/Files/info.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                      <ImageView fx:id="userPlayerTabImg" fitHeight="30.0" fitWidth="30.0" focusTraversable="true" nodeOrientation="INHERIT" onMouseClicked="#changeUserTab" pickOnBounds="true" preserveRatio="true" smooth="false" styleClass="imageview">
+                                                         <image>
+                                                            <Image url="@UIelements/Files/player.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </children>
+                                                </HBox>
                                              </children>
                                           </VBox>
                                        </children>
-                                       <VBox.margin>
-                                          <Insets left="5.0" />
-                                       </VBox.margin>
                                     </HBox>
+                                    <StackPane prefHeight="634.0" prefWidth="870.0">
+                                       <children>
+                                          <VBox fx:id="baseUserInfoTab" prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <HBox prefHeight="296.0" prefWidth="566.0" style="-fx-border-color: #000; -fx-border-radius: 2; -fx-background-color: #5BA4DCC2;">
+                                                   <children>
+                                                      <ImageView fx:id="lastScreenImg" fitHeight="347.0" fitWidth="498.0" pickOnBounds="true" preserveRatio="true">
+                                                         <HBox.margin>
+                                                            <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+                                                         </HBox.margin>
+                                                         <image>
+                                                            <Image url="@UIelements/Files/screen.png" />
+                                                         </image>
+                                                         <viewport>
+                                                            <Rectangle2D height="240.0" />
+                                                         </viewport>
+                                                         <effect>
+                                                            <DropShadow height="16.32" radius="8.245000000000001" spread="0.42" width="18.66" />
+                                                         </effect>
+                                                      </ImageView>
+                                                      <Label fx:id="infoUserPieChart" alignment="TOP_LEFT" prefHeight="300.0" prefWidth="348.0" style="-fx-border-color: #000; -fx-background-color: #2271B3;" text="App data:" textFill="WHITE">
+                                                         <font>
+                                                            <Font name="Gadugi Bold" size="15.0" />
+                                                         </font>
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                         <padding>
+                                                            <Insets left="5.0" />
+                                                         </padding>
+                                                      </Label>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <HBox prefHeight="357.0" prefWidth="665.0" style="-fx-border-color: #000; -fx-background-color: #5BA4DCC2;">
+                                                   <children>
+                                                      <PieChart fx:id="pieChart" labelsVisible="false" legendSide="LEFT" prefHeight="356.0" prefWidth="522.0" title="Stats" />
+                                                      <VBox alignment="CENTER" prefHeight="356.0" prefWidth="342.0">
+                                                         <children>
+                                                            <VBox alignment="CENTER" fillWidth="false" prefHeight="70.0" prefWidth="200.0">
+                                                               <children>
+                                                                  <Button fx:id="sendMsgBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#sendMessageToUser" prefHeight="42.0" prefWidth="200.0" style="-fx-background-color: #2271B3; -fx-border-width: 2; -fx-border-color: #8ab8ed;" text="Send message" textFill="WHITE">
+                                                                     <font>
+                                                                        <Font name="System Bold" size="16.0" />
+                                                                     </font>
+                                                                  </Button>
+                                                                  <TextField fx:id="msgToUserTF" alignment="CENTER" onAction="#sendMessageToUser" prefHeight="28.0" prefWidth="200.0" promptText="enter message" style="-fx-border-color: #8ab8ed; -fx-border-width: 2;">
+                                                                     <font>
+                                                                        <Font size="14.0" />
+                                                                     </font>
+                                                                  </TextField>
+                                                               </children>
+                                                            </VBox>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox fx:id="userPlayerTab" prefHeight="200.0" prefWidth="100.0" />
+                                       </children>
+                                    </StackPane>
                                  </children>
                               </VBox>
                            </children>
