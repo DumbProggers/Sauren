@@ -215,7 +215,7 @@
                                                 </HBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="userPlayerTab" prefHeight="200.0" prefWidth="100.0" />
+                                          <VBox fx:id="userPlayerTab" prefHeight="200.0" prefWidth="100.0" visible="false" />
                                        </children>
                                     </StackPane>
                                  </children>

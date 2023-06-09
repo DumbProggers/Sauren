@@ -4,14 +4,12 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 public class ServerHandler extends SimpleChannelInboundHandler<Object>//класс обработчик (In) - работаем на вход данных
 {
     public static ArrayList<ClientUser> users=new ArrayList<>();//массив со всеми когда-либо подключенными пользователями
-
+    public final static DataBase dataBase=new DataBase(users);
     private static String getIpFromCTX(ChannelHandlerContext ctx)
     {
         String ip=ctx.channel().remoteAddress().toString();
@@ -30,7 +28,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                 currentUsr.setOnline(true);
                 currentUsr.setChannel(ctx.channel());
                 System.out.println("> User "+currentUsr.getName() + " now Online!!!");
-                saveUsersToUsersBase();//обновить базу с пользователями
+                dataBase.saveUsersData();//обновить базу с пользователями
                 MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
                 return;
             }
@@ -42,7 +40,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
         newUsr.setOnline(true);
         System.out.println("> New User in System!!! "+newUsr.getIp());
         users.add(newUsr);
-        saveUsersToUsersBase();//обновить базу с пользователями
+        dataBase.saveUsersData();//обновить базу с пользователями
         MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
     }
     @Override
@@ -57,7 +55,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                 System.out.println("fff");
                 System.out.println("> User "+currentUsr.getName()+" disconnected!");
                 currentUsr.getChannel().close();
-                saveUsersToUsersBase();//обновить базу с пользователями
+                dataBase.saveUsersData();//обновить базу с пользователями
                 MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
                 return;
             }
@@ -86,7 +84,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
                     if(!currentUsr.getName().equals(newName))//если нужно сменить имя, меняем, вызываем обновление панели
                     {
                         currentUsr.setName(newName);
-                        saveUsersToUsersBase();//обновить базу с пользователями
+                        dataBase.saveUsersData();//обновить базу с пользователями
                         MainServerAppController.setNeedToUpdateUsersPanel(true);//чтобы обновить панель со всеми пользователями
                     }
                     currentUsr.userFolder.setLastScreenFolder(message.substring(index+1));//сохраняем папку для скриншота
@@ -108,7 +106,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
    {
         byte[] bytes = o.getBytes();
         String curDay=getCurrentDate();
-        sender.userFolder.setLastScreenName(curDay+".png");
+        sender.userFolder.setLastScreenName(curDay.substring(11)+".png");
 
         sender.userFolder.setLastOnlineDayFolderName(curDay.substring(0,10));
 
@@ -136,75 +134,5 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object>//клас
     }
     public static String removeLastNchars(String str, int n) {
         return str.substring(0, str.length() - n);
-    }
-
-    public static void saveUsersToUsersBase()
-    {
-        String data="";
-        for(ClientUser usr:users)
-        {   data += usr.getName() + ":" + usr.getIp()+":"+usr.userFolder.getLastOnlineDayFolderName()+":"+usr.userFolder.getLastScreenFolder() +":"+usr.userFolder.getLastScreenName()+ "\n";   }
-        //сохранил пользователя в формате "Имя:IP:ИмяПапкиДняПоследнейАктивности:ИмяПапкиПоследнегоСкрина:ИмяПоследнегоСкрина"
-
-        try
-        {
-            Path file=Path.of("usersBase.txt");
-            Files.writeString(file,data);
-        }
-        catch(IOException ex){
-            System.out.println(ex.getMessage());
-        }
-    }
-    public static String readFile(String file)
-    {
-        try {
-            Path data = Path.of(file);
-            if(!Files.exists(data)) Files.createFile(data);
-            return Files.readString(data);
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    public static void getUsersFromBase()//заполнить массив users пользователями, которые когда-либо подключались
-    {
-        users.clear();
-        String data=readFile("usersBase.txt");
-
-        while(data.length()>1)
-        {
-            //имя
-            int index=data.indexOf(":");
-            String temp=data.substring(0,index);
-            ClientUser usr=new ClientUser();
-            usr.setName(temp);
-            data=data.substring(index+1);
-
-            //ip
-            index=data.indexOf(":");
-            temp=data.substring(0,index);
-            usr.setIp(temp);
-            data= data.substring(index+1);
-
-            //имя папки дня последнего онлайна
-            index=data.indexOf(":");
-            temp=data.substring(0,index);
-            usr.userFolder.setLastOnlineDayFolderName(temp);
-            data= data.substring(index+1);
-
-            //папка с последнего приложения(с последним сриншотом)
-            index=data.indexOf(":");
-            temp=data.substring(0,index);
-            usr.userFolder.setLastScreenFolder(temp);
-            data= data.substring(index+1);
-
-            //имя последнего скриншота
-            index=data.indexOf("\n");
-            temp=data.substring(0,index);
-            usr.userFolder.setLastScreenName(temp);
-            data= data.substring(index+1);
-
-            users.add(usr);
-        }
     }
 }

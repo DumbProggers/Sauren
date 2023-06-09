@@ -51,11 +51,12 @@ public class ClientUser //класс клиента
     {
         if(userFolder.getLastScreenName()!=null && !userFolder.getLastScreenName().equals("null"))
         {
-            String date=userFolder.getLastScreenName();
-            date = date.substring(4, 16);//убрать день недели и все что после минут
-            //May_18_22'00
-            date = date.replaceFirst("_", ",");//May, 18_22'00
-            date = date.replaceFirst("_", " ");//May, 18 22'00
+            String date=userFolder.getLastOnlineDayFolderName();
+            date = date.substring(4);//убрать день недели
+            //May_18
+            date+=" "+userFolder.getLastScreenName().substring(0,5);
+            //May_18 22'00
+            date = date.replaceFirst("_", ",");//May, 18 22'00
             date = date.replaceFirst("\'", ":");//May, 18 22:00
             //
             return date;

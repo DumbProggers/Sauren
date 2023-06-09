@@ -22,8 +22,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
-import java.io.File;
 import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.util.ResourceBundle;
 
@@ -50,7 +51,7 @@ public class MainServerAppController implements Initializable
     private VBox baseUserInfoTab;
     @FXML
     private VBox userPlayerTab;
-
+    //------------------------------------------------//
     @FXML
     public Label infoUserPieChart;
     @FXML
@@ -82,6 +83,8 @@ public class MainServerAppController implements Initializable
         mainUsersTab.setVisible(true);
         pieChart.setStyle("-fx-text-fill: #191970;");//для белого цвета текста
         connectionInfoLbl.setStyle("-fx-text-inner-color: white;" + "-fx-background-color:   #5BA4DC");//для белого цвета текста
+        choiceUserStatusCB.setItems(userStatusOL);//Заполнение ChoiceBox значениями о статусе пользователя.
+        choiceUserStatusCB.setValue(userStatusOL.get(0));//ставлю начальный "статус-фильтр"
         userInfoVB.setVisible(false);//прячу панель с информацией о выбранном пользователе
         try
         {
@@ -90,9 +93,9 @@ public class MainServerAppController implements Initializable
             new Thread(Network::Start).start();
 
             connectionInfoLbl.setText(Network.getServerIp()+":"+Network.getPort());//вывести ip и порт сервера
-            ServerHandler.getUsersFromBase();//получить данные ранее подключенных пользователей
+            ServerHandler.dataBase.getUsersFromBase();//получить данные ранее подключенных пользователей
 
-            Timeline timeline = new Timeline (//таймер для периодичекого обновления базы и панели пользователей
+            Timeline timeline = new Timeline (//таймер для периодического обновления панели пользователей
                     new KeyFrame(
                             Duration.millis(1000), //1 секунда
                             ae ->
@@ -104,14 +107,10 @@ public class MainServerAppController implements Initializable
             timeline.play(); //Запускаем
 
         } catch (Exception e) { throw new RuntimeException(e); }
-
-        //Заполнение ChoiceBox значениями о статусе пользователя.
-        choiceUserStatusCB.setItems(userStatusOL);
-        choiceUserStatusCB.setValue(userStatusOL.get(0));
     }
 
 
-    public void updateClientsPannel()//заново вывести кнопки пользователей в левую панель
+    private void updateClientsPannel()//заново вывести кнопки пользователей в левую панель
     {
         if(needToUpdateUsersPanel)
         {
@@ -149,13 +148,16 @@ public class MainServerAppController implements Initializable
         curUserNameLbl.setText(usr.getName());//установка имени
         curUserIPLbl.setText(usr.getIp());//установка ip пользователя
         if(getLastScreenT!=null)    getLastScreenT.stop();
-        getLastScreenT= new Timeline (//таймер для периодичекого обновления последнего скриншота
+        getLastScreenT= new Timeline (//таймер для периодического обновления последнего скриншота
                 new KeyFrame(
-                        Duration.millis(500), //0,5  сек
+                        Duration.millis(500), //0,5 сек
                         ae ->
                         {
-                            if(new File(    usr.userFolder.getFullPathToLastScreen()   ).exists())//если файл с путем существует
-                                lastScreenImg.setImage(new Image(   usr.userFolder.getFullPathToLastScreen()  ));//установка последнего полученного скриншота
+                            if(currentUserTab==userTabs.BASE_INFO)//если сейчас выбрана вкладка с основной информацией
+                            {
+                                if (Files.exists(Path.of(usr.userFolder.getFullPathToLastScreen())))//если файл с путем существует
+                                    lastScreenImg.setImage(new Image(usr.userFolder.getFullPathToLastScreen()));//установка последнего полученного скриншота
+                            }
 
                             if(usr.userOnline())//установка статуса (онлайн/оффлайн)
                             {
@@ -172,7 +174,9 @@ public class MainServerAppController implements Initializable
         getLastScreenT.setCycleCount(Integer.MAX_VALUE); //Ограничим число повторений
         getLastScreenT.play(); //Запускаем
 
-        UserPieChart.redraw(pieChart,infoUserPieChart,currentUser);
+        if(currentUserTab==userTabs.BASE_INFO) {//если сейчас выбрана вкладка с основной информацией
+            UserPieChart.redraw(pieChart, infoUserPieChart, currentUser);
+        }
     }
     public static void setNeedToUpdateUsersPanel(boolean need){ needToUpdateUsersPanel=need;}
 
