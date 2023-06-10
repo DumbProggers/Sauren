@@ -1,4 +1,4 @@
-package com.sauren.sauren;
+package com.sauren.sauren.clients;
 
 import java.util.Date;
 

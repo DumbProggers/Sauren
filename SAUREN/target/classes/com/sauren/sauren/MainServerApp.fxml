@@ -151,7 +151,7 @@
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <StackPane prefHeight="634.0" prefWidth="870.0">
+                                    <StackPane fx:id="userTabsStP" prefHeight="634.0" prefWidth="870.0">
                                        <children>
                                           <VBox fx:id="baseUserInfoTab" prefHeight="200.0" prefWidth="100.0">
                                              <children>
@@ -215,7 +215,10 @@
                                                 </HBox>
                                              </children>
                                           </VBox>
-                                          <VBox fx:id="userPlayerTab" prefHeight="200.0" prefWidth="100.0" visible="false" />
+                                          <VBox fx:id="userPlayerTab" style="-fx-border-color: #000;" visible="false">
+                                             <StackPane.margin>
+                                                <Insets left="5.0" />
+                                             </StackPane.margin></VBox>
                                        </children>
                                     </StackPane>
                                  </children>

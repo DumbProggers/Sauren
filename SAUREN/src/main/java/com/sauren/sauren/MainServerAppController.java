@@ -4,6 +4,8 @@ import com.sauren.sauren.UIelements.UserButton;
 import com.sauren.sauren.UIelements.UserPieChart;
 import com.sauren.sauren.UIelements.mainTabs;
 import com.sauren.sauren.UIelements.userTabs;
+import com.sauren.sauren.clients.ClientUser;
+import com.sauren.sauren.modules.playerTabController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -51,6 +53,8 @@ public class MainServerAppController implements Initializable
     private VBox baseUserInfoTab;
     @FXML
     private VBox userPlayerTab;
+    @FXML
+    private StackPane userTabsStP;
     //------------------------------------------------//
     @FXML
     public Label infoUserPieChart;
@@ -77,6 +81,8 @@ public class MainServerAppController implements Initializable
     @FXML
     private TextField msgToUserTF;
     //------------------------------------------------//
+    public static ClientUser getCurrentUser(){ return currentUser; }
+    //------------------------------------------------//
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -85,6 +91,11 @@ public class MainServerAppController implements Initializable
         connectionInfoLbl.setStyle("-fx-text-inner-color: white;" + "-fx-background-color:   #5BA4DC");//для белого цвета текста
         choiceUserStatusCB.setItems(userStatusOL);//Заполнение ChoiceBox значениями о статусе пользователя.
         choiceUserStatusCB.setValue(userStatusOL.get(0));//ставлю начальный "статус-фильтр"
+
+        userPlayerTab.getChildren().add(new playerTabController());
+        userPlayerTab.setVisible(false);
+        baseUserInfoTab.setVisible(true);
+
         userInfoVB.setVisible(false);//прячу панель с информацией о выбранном пользователе
         try
         {

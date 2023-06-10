@@ -1,5 +1,7 @@
 package com.sauren.sauren;
 
+import com.sauren.sauren.clients.ClientUser;
+import com.sauren.sauren.clients.DataBase;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

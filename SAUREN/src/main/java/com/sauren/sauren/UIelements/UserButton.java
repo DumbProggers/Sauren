@@ -1,10 +1,9 @@
 package com.sauren.sauren.UIelements;
 
-import com.sauren.sauren.ClientUser;
+import com.sauren.sauren.clients.ClientUser;
 import com.sauren.sauren.MainServerAppController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;

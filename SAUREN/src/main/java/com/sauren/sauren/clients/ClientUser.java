@@ -1,9 +1,7 @@
-package com.sauren.sauren;
+package com.sauren.sauren.clients;
 
 import io.netty.channel.Channel;
 import javafx.scene.image.Image;
-
-import java.util.Date;
 
 public class ClientUser //класс клиента
 {

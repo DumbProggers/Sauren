@@ -1,4 +1,4 @@
-package com.sauren.sauren;
+package com.sauren.sauren.clients;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,7 +9,7 @@ public class DataBase
 {
     private static final String userBase="usersBase.txt";
     private ArrayList<ClientUser> usersList;
-    DataBase(ArrayList<ClientUser> usersList){
+    public DataBase(ArrayList<ClientUser> usersList){
         this.usersList=usersList;
     }
     public void saveUsersData()

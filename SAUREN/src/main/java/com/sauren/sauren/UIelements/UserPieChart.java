@@ -1,7 +1,6 @@
 package com.sauren.sauren.UIelements;
 
-import com.sauren.sauren.ClientUser;
-import com.sauren.sauren.ServerHandler;
+import com.sauren.sauren.clients.ClientUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -14,7 +13,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.Objects;
 
 public class UserPieChart
