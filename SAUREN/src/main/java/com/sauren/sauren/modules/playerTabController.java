@@ -84,7 +84,7 @@ public class playerTabController extends VBox implements Initializable
         System.out.println(basePath);
 
         if(!Files.exists(Path.of(basePath))){
-            image.setImage(new Image("src/main/resources/com/sauren/sauren/UIelements/Files/kartinki-oshibki-32.jpeg"));
+            image.setImage(new Image("D:\\myprogs\\Java\\Sauren\\SAUREN\\src\\main\\resources\\com\\sauren\\sauren\\UIelements\\Files\\kartinki-oshibki-32.jpeg"));
             status = "error";
             //pathToScreens.clear();
             scrollbar.setMax(0);
@@ -97,7 +97,7 @@ public class playerTabController extends VBox implements Initializable
             ArrayList<String> pathToScreenSelectedScreens = new ArrayList<String>();
             if (dirs == null)
             {
-                image.setImage(new Image("com\\sauren\\sauren\\UIelements\\Files\\kartinki-oshibki-32.jpeg"));
+                image.setImage(new Image("D:\\myprogs\\Java\\Sauren\\SAUREN\\src\\main\\resources\\com\\sauren\\sauren\\UIelements\\Files\\kartinki-oshibki-32.jpeg"));
                 status = "error";
                 //pathToScreens.clear();
                 scrollbar.setMax(0);
