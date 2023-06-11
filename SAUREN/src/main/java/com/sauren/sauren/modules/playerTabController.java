@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -71,7 +72,7 @@ public class playerTabController extends VBox implements Initializable
 
 
     @FXML
-    protected void getChoiceDate(){
+    protected void getChoiceDate() throws IOException, URISyntaxException {
         pathToScreens.clear();
 
         LocalDate localDate = datePicker.getValue();
@@ -84,7 +85,9 @@ public class playerTabController extends VBox implements Initializable
         System.out.println(basePath);
 
         if(!Files.exists(Path.of(basePath))){
-            image.setImage(new Image("D:\\myprogs\\Java\\Sauren\\SAUREN\\src\\main\\resources\\com\\sauren\\sauren\\UIelements\\Files\\kartinki-oshibki-32.jpeg"));
+            //image.setImage(new Image("D:\\myprogs\\Java\\Sauren\\SAUREN\\src\\main\\resources\\com\\sauren\\sauren\\UIelements\\Files\\kartinki-oshibki-32.jpeg"));
+            image.setImage(new Image(Path.of("Files/kartinki-oshibki-32.jpeg").toFile().getAbsolutePath()));
+            //image.setImage(new Image(MainServerApp.class.getClassLoader().getResource("com/sauren/sauren/UIelements/Files/kartinki-oshibki-32.jpeg").getFile().toString()));
             status = "error";
             //pathToScreens.clear();
             scrollbar.setMax(0);
@@ -118,11 +121,11 @@ public class playerTabController extends VBox implements Initializable
                     public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
 
                         String currenValue = pathToScreenSelectedScreens.get((int) scrollbar.getValue());
+                        System.out.println(pathToScreenSelectedScreens.size());
                         if (currenValue.contains(basePath)) {
                             System.out.println(currenValue);
                             image.setImage(new Image(currenValue));
                         }
-
                     }
                 });
             }
